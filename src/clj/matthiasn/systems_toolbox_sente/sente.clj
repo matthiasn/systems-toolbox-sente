@@ -8,6 +8,7 @@
     [compojure.route :as route]
     [clojure.core.async :refer [<! chan put! mult tap pub sub timeout go-loop sliding-buffer]]
     [immutant.web :as immutant]
+    [immutant.web.undertow :as undertow]
     [taoensso.sente :as sente]
     [taoensso.sente.server-adapters.immutant :refer (sente-web-server-adapter)]
     [taoensso.sente.packers.transit :as sente-transit]))
@@ -34,12 +35,13 @@
 
 (defn sente-comp-fn
   "Return clean initial component state atom."
-  [{:keys [index-page-fn middleware user-id-fn host port]
+  [{:keys [index-page-fn middleware user-id-fn host port undertow-cfg]
     :or   {user-id-fn random-user-id
            host default-host
            port default-port}}]
   (fn [put-fn]
-    (let [ws (sente/make-channel-socket! sente-web-server-adapter {:user-id-fn user-id-fn
+    (let [undertow-cfg (merge {:host host :port port} undertow-cfg)
+          ws (sente/make-channel-socket! sente-web-server-adapter {:user-id-fn user-id-fn
                                                                    :packer (sente-transit/get-flexi-packer :edn)})
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
           cmp-routes (routes
@@ -50,8 +52,10 @@
                        (route/not-found "Page not found"))]
       (let [ring-handler (rmd/wrap-defaults cmp-routes ring-defaults-config)
             wrapped-in-middleware (if middleware (middleware ring-handler) ring-handler)
-            server (immutant/run wrapped-in-middleware :host host :port port)]
+            server (immutant/run wrapped-in-middleware (undertow/options undertow-cfg))]
         (log/info "Immutant-web is listening on port" port "on interface" host)
+        (when-let [ssl-port (:ssl-port undertow-cfg)]
+          (log/info "Immutant-web is listening on SSL-port" ssl-port "on interface" host))
         (sente/start-chsk-router! ch-recv (make-handler ws put-fn))
         {:state       ws
          :shutdown-fn #(immutant/stop server)}))))
