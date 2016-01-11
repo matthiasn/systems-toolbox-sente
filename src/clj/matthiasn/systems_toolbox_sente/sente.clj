@@ -13,18 +13,22 @@
     [taoensso.sente.server-adapters.immutant :refer (sente-web-server-adapter)]
     [taoensso.sente.packers.transit :as sente-transit]))
 
-(def ring-defaults-config (assoc-in rmd/site-defaults [:security :anti-forgery]
-                                    {:read-token (fn [req] (-> req :params :csrf-token))}))
+(def ring-defaults-config
+  (assoc-in rmd/site-defaults [:security :anti-forgery]
+            {:read-token (fn [req] (-> req :params :csrf-token))}))
 
-(defn random-user-id
-  "generates unique ID for request"
+(defn random-user-id-fn
+  "Generates random and unique ID for each WebSocket connection request. Can be overridden by the
+  :user-id-fn key in the component's cfg-map, for example in order to use the ring session ID."
   [req]
   (let [uid (str (java.util.UUID/randomUUID))]
-    (log/info "Connected:" (:remote-addr req) uid)
+    (log/debug "Connected:" (:remote-addr req) uid)
     uid))
 
 (defn make-handler
-  "Create handler function for messages from WebSocket connection. Calls put-fn with received messages."
+  "Create handler function for messages from WebSocket connection. Calls put-fn with received messages
+  while reconstructing the metadata on each message to comply with the message format expected by the
+  systems-toolbox library."
   [_ put-fn]
   (fn [{:keys [event]}]
     (let [[cmd-type {:keys [msg msg-meta]}] event]
@@ -34,15 +38,32 @@
 (def default-port (get (System/getenv) "PORT" "8888"))
 
 (defn sente-comp-fn
-  "Return clean initial component state atom."
+  "Component state function. Initializes the webserver that provides both the index-page of a
+  single-page application plus WebSocket communication between the server and each connected client.
+  Expects a single map as an argument, where only the :index-page-fn entry is mandatory. This
+  function is expected to deliver the index page, e.g. by using hiccup as can be seen in the
+  example applications.
+  When host and port are not specified, they are taken from environment variables, with a default
+  when those are not defined (as can be seen above).
+  It is also possible to specify additional middleware, for example for optimized asset delivery
+  or additional security headers.
+  The server can listen both via http and via https, where the https configuration would be specified
+  under the :undertow-cfg as follows:
+
+      {:ssl-port     8443
+       :keystore     \"/path/to/certificate\"
+       :key-password \"some-random-password\"}
+
+  In order to disable unencrypted listening altogether, the :port key with a nil value can be specified."
   [{:keys [index-page-fn middleware user-id-fn host port undertow-cfg]
-    :or   {user-id-fn random-user-id
+    :or   {user-id-fn random-user-id-fn
            host default-host
            port default-port}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host host :port port} undertow-cfg)
-          ws (sente/make-channel-socket! sente-web-server-adapter {:user-id-fn user-id-fn
-                                                                   :packer (sente-transit/get-flexi-packer :edn)})
+          ws (sente/make-channel-socket! sente-web-server-adapter
+                                         {:user-id-fn user-id-fn
+                                          :packer (sente-transit/get-flexi-packer :edn)})
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
           cmp-routes (routes
                        (GET "/" req (content-type (response (index-page-fn req)) "text/html"))
@@ -53,7 +74,8 @@
       (let [ring-handler (rmd/wrap-defaults cmp-routes ring-defaults-config)
             wrapped-in-middleware (if middleware (middleware ring-handler) ring-handler)
             server (immutant/run wrapped-in-middleware (undertow/options undertow-cfg))]
-        (log/info "Immutant-web is listening on port" port "on interface" host)
+        (when (:port undertow-cfg)
+          (log/info "Immutant-web is listening on port" port "on interface" host))
         (when-let [ssl-port (:ssl-port undertow-cfg)]
           (log/info "Immutant-web is listening on SSL-port" ssl-port "on interface" host))
         (sente/start-chsk-router! ch-recv (make-handler ws put-fn))
@@ -61,7 +83,11 @@
          :shutdown-fn #(immutant/stop server)}))))
 
 (defn all-msgs-handler
-  "Handle incoming messages: process / add to application state."
+  "Handler all incoming messages. Reformats message into a map with the metadata stored separately
+  as it would otherwise not survive the EDN/Transit serialization when the message is sent over the
+  WebSocket connection.
+  When a message contains the :sente-uid on the metadata, it will be sent to that specific client, otherwise
+  it will be broadcast to all connected clients."
   [{:keys [cmp-state msg-type msg-meta msg-payload]}]
   (let [ws cmp-state
         chsk-send! (:send-fn ws)
@@ -75,7 +101,10 @@
         (chsk-send! uid msg-w-ser-meta)))))
 
 (defn cmp-map
-  "Creates server-side WebSockets communication component map."
+  "Returns map for creating server-side WebSockets communication component. Takes the cmp-id and either
+  a configuration map or a function that generates the index page of a single page application. The latter
+  is for backwards compatibility only, when a map is provided, the same function is expected under the
+  :index-page-fn key."
   {:added "0.3.1"}
   [cmp-id cfg-map-or-index-page-fn]
   (let [cfg-map (if (map? cfg-map-or-index-page-fn)
