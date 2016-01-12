@@ -1,6 +1,7 @@
-(ns matthiasn.systems-toolbox-sente.sente
-  (:gen-class)
+(ns matthiasn.systems-toolbox-sente.server
+  "This namespace contains a component for the server side of WebSockets communication."
   (:require
+    [matthiasn.systems-toolbox-sente.util :as u]
     [clojure.tools.logging :as log]
     [ring.middleware.defaults :as rmd]
     [ring.util.response :refer [resource-response response content-type]]
@@ -31,8 +32,8 @@
   systems-toolbox library."
   [_ put-fn]
   (fn [{:keys [event]}]
-    (let [[cmd-type {:keys [msg msg-meta]}] event]
-      (put-fn (with-meta [cmd-type msg] msg-meta)))))
+    (log/debug "Received over WebSockets:" event)
+    (put-fn (u/deserialize-meta event))))
 
 (def default-host (get (System/getenv) "HOST" "localhost"))
 (def default-port (get (System/getenv) "PORT" "8888"))
@@ -88,7 +89,7 @@
   WebSocket connection.
   When a message contains the :sente-uid on the metadata, it will be sent to that specific client, otherwise
   it will be broadcast to all connected clients."
-  [{:keys [cmp-state msg-type msg-meta msg-payload]}]
+  [{:keys [cmp-state msg-type msg msg-meta msg-payload]}]
   (let [ws cmp-state
         chsk-send! (:send-fn ws)
         connected-uids (:any @(:connected-uids ws))

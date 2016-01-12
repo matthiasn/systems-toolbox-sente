@@ -1,10 +1,10 @@
-(defproject matthiasn/systems-toolbox-sente "0.5.3"
+(defproject matthiasn/systems-toolbox-sente "0.5.4"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :source-paths ["src/clj" "src/cljs"]
+  :source-paths ["src/cljc" "src/clj" "src/cljs"]
 
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/tools.reader "1.0.0-alpha1"]

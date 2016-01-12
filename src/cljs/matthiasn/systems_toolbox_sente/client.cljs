@@ -1,12 +1,9 @@
-(ns matthiasn.systems-toolbox-sente.sente
-  (:require [cljs.core.match :refer-macros [match]]
+(ns matthiasn.systems-toolbox-sente.client
+  "This namespace contains a component for the client side of WebSockets communication."
+  (:require [matthiasn.systems-toolbox-sente.util :as u]
+            [cljs.core.match :refer-macros [match]]
             [taoensso.sente :as sente :refer (cb-success?)]
             [taoensso.sente.packers.transit :as sente-transit]))
-
-(defn deserialize-meta
-  [payload]
-  (let [[cmd-type {:keys [msg msg-meta]}] payload]
-    (with-meta [cmd-type msg] msg-meta)))
 
 (defn handle-first-open
   "After component is ready and before WS connection is established, there's a small window during
@@ -26,7 +23,7 @@
   (fn [{:keys [event]}]
     (match event
            [:chsk/state {:first-open? true}] (handle-first-open put-fn ws)
-           [:chsk/recv payload] (put-fn (deserialize-meta payload))
+           [:chsk/recv payload] (put-fn (u/deserialize-meta payload))
            [:chsk/handshake _] ()
            :else ())))
 
@@ -43,8 +40,10 @@
   "Handle incoming messages: process / add to application state."
   [{:keys [cmp-state msg-type msg-meta msg-payload]}]
   (let [{:keys [state send-fn]} cmp-state
-        msg-w-ser-meta (assoc-in (merge msg-meta {}) [:sente-uid] (:uid @state))
-        msg [msg-type {:msg msg-payload :msg-meta msg-w-ser-meta}]]
+        ;msg-w-ser-meta (assoc-in (merge msg-meta {}) [:sente-uid] (:uid @state))
+        ;msg [msg-type {:msg msg-payload :msg-meta msg-w-ser-meta}]
+        msg [msg-type {:msg msg-payload
+                       :msg-meta (merge msg-meta {:sente-uid (:uid @state)})}]]
     (if (:open? @state)
       (send-fn msg)
       (swap! state update-in [:buffered-msgs] conj msg))))
