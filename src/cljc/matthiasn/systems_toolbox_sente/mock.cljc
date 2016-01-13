@@ -22,7 +22,7 @@
                    :sente-mock-out-chan (chan)})}))
 
 (defn all-msgs-handler
-  "Handler all incoming messages. Reformats message into a map with the metadata stored separately
+  "Handler for all incoming messages. Reformats message into a map with the metadata stored separately
   as it would otherwise not survive the EDN/Transit serialization when the message is sent over the
   WebSocket connection. Here, the same is done so the communication has the comparable property
   of only containing EDN-serializable data. :sente-uid is assigned to message metadata from "
@@ -44,8 +44,7 @@
    :opts             cfg})
 
 (defn connect-sente-mocks
-  "Connects two sente mock components with each other. As of now, it's a 1-on-1 relationship,
-  so there's no special configuration such as assign :sente-uid assignirequired."
+  "Connects two sente mock components with each other. As of now, it's a 1-on-1 relationship."
   {:added "0.5.4"}
   [cmp-1 cmp-2]
   (let [cmp-1-state @(:cmp-state cmp-1)
