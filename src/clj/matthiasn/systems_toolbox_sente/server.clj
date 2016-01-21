@@ -48,6 +48,8 @@
   when those are not defined (as can be seen above).
   It is also possible to specify additional middleware, for example for optimized asset delivery
   or additional security headers.
+  A :routes-fn can be specified, which expects a function that will be called with a single argument
+  map that currently contains the put-fn for communicating with the rest of the system.
   The server can listen both via http and via https, where the https configuration would be specified
   under the :undertow-cfg as follows:
 
@@ -56,22 +58,24 @@
        :key-password \"some-random-password\"}
 
   In order to disable unencrypted listening altogether, the :port key with a nil value can be specified."
-  [{:keys [index-page-fn middleware user-id-fn host port undertow-cfg]
+  [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg]
     :or   {user-id-fn random-user-id-fn
            host default-host
            port default-port}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host host :port port} undertow-cfg)
+          user-routes (routes-fn {:put-fn put-fn})
           ws (sente/make-channel-socket! sente-web-server-adapter
                                          {:user-id-fn user-id-fn
                                           :packer (sente-transit/get-flexi-packer :edn)})
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
-          cmp-routes (routes
-                       (GET "/" req (content-type (response (index-page-fn req)) "text/html"))
-                       (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
-                       (POST "/chsk" req (ajax-post-fn req))
-                       (route/resources "/")
-                       (route/not-found "Page not found"))]
+          cmp-routes [(GET "/" req (content-type (response (index-page-fn req)) "text/html"))
+                      (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
+                      (POST "/chsk" req (ajax-post-fn req))]
+          cmp-routes (into cmp-routes user-routes)
+          cmp-routes (into cmp-routes [(route/resources "/")
+                                       (route/not-found "Page not found")])
+          cmp-routes (apply routes cmp-routes)]
       (let [ring-handler (rmd/wrap-defaults cmp-routes ring-defaults-config)
             wrapped-in-middleware (if middleware (middleware ring-handler) ring-handler)
             server (immutant/run wrapped-in-middleware (undertow/options undertow-cfg))]
