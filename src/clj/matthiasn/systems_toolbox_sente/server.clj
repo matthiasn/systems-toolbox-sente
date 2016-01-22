@@ -93,15 +93,15 @@
   WebSocket connection.
   When a message contains the :sente-uid on the metadata, it will be sent to that specific client, otherwise
   it will be broadcast to all connected clients."
-  [{:keys [cmp-state msg-type msg msg-meta msg-payload]}]
+  [{:keys [cmp-state msg-type msg-meta msg-payload]}]
   (let [ws cmp-state
         chsk-send! (:send-fn ws)
         connected-uids (:any @(:connected-uids ws))
         dest-uid (:sente-uid msg-meta)
         msg-w-ser-meta [msg-type {:msg msg-payload :msg-meta msg-meta}]]
-    (if dest-uid
-      (when (contains? connected-uids dest-uid)
-        (chsk-send! dest-uid msg-w-ser-meta))
+    (when (contains? connected-uids dest-uid)
+      (chsk-send! dest-uid msg-w-ser-meta))
+    (when (= :broadcast dest-uid)
       (doseq [uid connected-uids]
         (chsk-send! uid msg-w-ser-meta)))))
 

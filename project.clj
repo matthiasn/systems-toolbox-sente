@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.5.5"
+(defproject matthiasn/systems-toolbox-sente "0.5.6"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
