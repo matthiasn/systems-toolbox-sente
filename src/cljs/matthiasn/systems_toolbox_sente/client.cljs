@@ -5,6 +5,13 @@
             [taoensso.sente :as sente :refer (cb-success?)]
             [taoensso.sente.packers.transit :as sente-transit]))
 
+(defn prepare-msg
+  "Converts a map with :msg-type, :msg-payload and :msg-meta into a vector that can be passwed
+  to send-fn. It also set :sente-uuid on a msg-meta."
+  [state {:keys [msg-type msg-payload msg-meta]}]
+  [msg-type {:msg msg-payload
+             :msg-meta (merge msg-meta {:sente-uid (:uid @state)})}])
+
 (defn handle-first-open
   "After component is ready and before WS connection is established, there's a small window during
   which another components might try to send something. Those messages would get lost, so they are
@@ -13,7 +20,7 @@
   (put-fn [:first-open true])
   (let [{:keys [state send-fn]} ws
         buffered-msgs (:buffered-msgs @state)]
-    (doall (map (partial send-fn) buffered-msgs))
+    (doall (map #(send-fn (prepare-msg state %)) buffered-msgs))
     (swap! state dissoc :buffered-msgs)))
 
 (defn make-handler
@@ -38,14 +45,11 @@
 
 (defn all-msgs-handler
   "Handle incoming messages: process / add to application state."
-  [{:keys [cmp-state msg-type msg-meta msg-payload]}]
+  [{:keys [cmp-state] :as msg-map}]
   (let [{:keys [state send-fn]} cmp-state
-        ;msg-w-ser-meta (assoc-in (merge msg-meta {}) [:sente-uid] (:uid @state))
-        ;msg [msg-type {:msg msg-payload :msg-meta msg-w-ser-meta}]
-        msg [msg-type {:msg msg-payload
-                       :msg-meta (merge msg-meta {:sente-uid (:uid @state)})}]]
+        msg (select-keys msg-map [:msg-type :msg-meta :msg-payload])]
     (if (:open? @state)
-      (send-fn msg)
+      (send-fn (prepare-msg state msg))
       (swap! state update-in [:buffered-msgs] conj msg))))
 
 (defn cmp-map
