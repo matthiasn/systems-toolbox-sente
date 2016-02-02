@@ -1,3 +1,12 @@
+## v0.5.8 - February 2nd, 2016
+
+```clojure
+[matthiasn/systems-toolbox-sente "0.5.8"]
+```
+
+* don't fail when no routes-fn specified
+
+
 ## v0.5.7 - January 26th, 2016
 
 ```clojure

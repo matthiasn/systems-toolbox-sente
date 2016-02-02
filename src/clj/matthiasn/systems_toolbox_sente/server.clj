@@ -64,7 +64,7 @@
            port default-port}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host host :port port} undertow-cfg)
-          user-routes (routes-fn {:put-fn put-fn})
+          user-routes (when routes-fn (routes-fn {:put-fn put-fn}))
           ws (sente/make-channel-socket! sente-web-server-adapter
                                          {:user-id-fn user-id-fn
                                           :packer (sente-transit/get-flexi-packer :edn)})
