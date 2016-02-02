@@ -37,6 +37,7 @@
 
 (def default-host (get (System/getenv) "HOST" "localhost"))
 (def default-port (get (System/getenv) "PORT" "8888"))
+(def http2? (get (System/getenv) "HTTP2" false))
 
 (defn sente-comp-fn
   "Component state function. Initializes the webserver that provides both the index-page of a
@@ -63,7 +64,7 @@
            host default-host
            port default-port}}]
   (fn [put-fn]
-    (let [undertow-cfg (merge {:host host :port port} undertow-cfg)
+    (let [undertow-cfg (merge {:host host :port port :http2? http2?} undertow-cfg)
           user-routes (when routes-fn (routes-fn {:put-fn put-fn}))
           ws (sente/make-channel-socket! sente-web-server-adapter
                                          {:user-id-fn user-id-fn
