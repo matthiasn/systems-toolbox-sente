@@ -1,3 +1,12 @@
+## v0.5.9 - February 3rd, 2016
+
+```clojure
+[matthiasn/systems-toolbox-sente "0.5.9"]
+```
+
+* HTTP2 configurable
+
+
 ## v0.5.8 - February 2nd, 2016
 
 ```clojure
