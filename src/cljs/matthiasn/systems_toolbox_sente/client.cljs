@@ -5,6 +5,11 @@
             [taoensso.sente :as sente :refer (cb-success?)]
             [taoensso.sente.packers.transit :as sente-transit]))
 
+(defn set-cookie
+  "Helper function for setting a cookie with the provided name."
+  [name value valid]
+  (.set goog.net.cookies name value valid))
+
 (defn prepare-msg
   "Converts a map with :msg-type, :msg-payload and :msg-meta into a vector that can be passwed
   to send-fn. It also set :sente-uuid on a msg-meta."
@@ -23,42 +28,83 @@
     (doall (map #(send-fn (prepare-msg state %)) buffered-msgs))
     (swap! state dissoc :buffered-msgs)))
 
-(defn make-handler
-  "Create handler function for messages from WebSocket connection. Calls put-fn with received
-   messages."
-  [put-fn ws]
-  (fn [{:keys [event]}]
-    (match event
-           [:chsk/state {:first-open? true}] (handle-first-open put-fn ws)
-           [:chsk/recv payload] (put-fn (u/deserialize-meta payload))
-           [:chsk/handshake _] ()
-           :else ())))
+(defn update-open-request
+  "Updates a cookie with the number of open requests. This cookie can then be used in tests to wait for all
+  backend requests to be answered before making any assertions about the UI. The cookie is valid for 15 minutes
+  for now. This value is entirely arbitrary - feel free to submit a PR that makes this value configurable,
+  should the need arise."
+  [request-tags]
+  (set-cookie "systems-toolbox-open-requests" (count request-tags) 900))
 
-(defn mk-state
-  "Return clean initial component state atom."
-  [put-fn]
-  (let [ws (sente/make-channel-socket! "/chsk" {:type :auto
-                                                :packer (sente-transit/get-flexi-packer :edn)})]
-    (sente/start-chsk-router! (:ch-recv ws) (make-handler put-fn ws))
-    (swap! (:state ws) assoc :buffered-msgs [])
-    {:state ws}))
+(defn make-handler
+  "Creates a handler function for messages from WebSocket connection. Calls put-fn with received messages.
+  Also updates the open requests cookie by decreasing the number when a message is encountered for which
+  there was an expectation for a response from the backend."
+  [put-fn cmp-state cfg]
+  (fn [{:keys [event]}]
+    (let [request-tags (:request-tags cmp-state)]
+      (match event
+             [:chsk/state {:first-open? true}] (handle-first-open put-fn cmp-state)
+             [:chsk/recv payload] (let [msg-w-meta (u/deserialize-meta payload)]
+                                    (when (:count-open-requests cfg)
+                                          (swap! request-tags dissoc (:tag (meta msg-w-meta)))
+                                          (update-open-request @request-tags)
+                                        (put-fn msg-w-meta)))
+             [:chsk/handshake _] ()
+             :else ()))))
+
+(defn client-state-fn
+  "Returns a function that returns the initial component state for the sente client component.
+  Also sets the systems-toolbox-open-requests cookie when the component is configured to record the
+  number of open backend requests."
+  [cfg]
+  (fn
+    [put-fn]
+    (let [ws (sente/make-channel-socket! "/chsk" {:type :auto :packer (sente-transit/get-flexi-packer :edn)})
+          cmp-state (merge ws {:request-tags (atom {})})]
+      (sente/start-chsk-router! (:ch-recv ws) (make-handler put-fn cmp-state cfg))
+      (swap! (:state ws) assoc :buffered-msgs [])
+      (when (:count-open-requests cfg)
+        (set-cookie "systems-toolbox-open-requests" "0" 10)) ; set cookie to initial value for testing
+      {:state cmp-state})))
 
 (defn all-msgs-handler
-  "Handle incoming messages: process / add to application state."
-  [{:keys [cmp-state] :as msg-map}]
-  (let [{:keys [state send-fn]} cmp-state
+  "Handler function for all incoming messages. By default, all messages received by this component are
+  forwarded to the server. When message filtering is enabled for this component, it will instead only
+  forward messages to the server for which the :fwd-to-backend key is set on the message metadata."
+  [{:keys [cmp-state msg-meta msg-type cfg] :as msg-map}]
+  (let [fwd? (if (:msg-filtering cfg) (:forward-to-backend msg-meta) true)
+        expect-response? (:expect-backend-response msg-meta)
+        request-tags (:request-tags cmp-state)
+        {:keys [state send-fn]} cmp-state
         msg (select-keys msg-map [:msg-type :msg-meta :msg-payload])]
-    (if (:open? @state)
-      (send-fn (prepare-msg state msg))
-      (swap! state update-in [:buffered-msgs] conj msg))))
+    (when fwd?
+      (when (and expect-response? (:count-open-requests cfg))
+        (swap! request-tags assoc-in [(:tag msg-meta)] msg-type)
+        (update-open-request @request-tags))
+      (if (:open? @state)
+        (send-fn (prepare-msg state msg))
+        (swap! state update-in [:buffered-msgs] conj msg)))))
 
 (defn cmp-map
-  "Creates client-side WebSockets communication component"
+  "Returns configuration map for creating a client-side WebSockets communication component. In any case,
+  it requires to specify the component ID. Additional configuration options can be provided in the second
+  argument. Here, we can configure behavior such as only forwarding messages that have the :forward-to-backend
+  key set on the message metadata. This has been added in version 0.5.10 - specifically requiring to enable
+  this filtering mechanism avoids breaking backward compatibility. Also, there's an option to count open
+  requests. This option should be enabled together with :msg-filtering and will keep a set of open backend
+  requests and record the count in a cookie. This can be useful in testing when we want to determine when
+  the UI is stable. Note that for inclusion in the counter, the :expect-backend-response key needs to be
+  set on the message metadata."
   {:added "0.3.1"}
-  [cmp-id]
-  {:cmp-id           cmp-id
-   :state-fn         mk-state
-   :all-msgs-handler all-msgs-handler
-   :opts             {:watch      :state
-                      :reload-cmp false
-                      :snapshots-on-firehose false}})
+  ([cmp-id] (cmp-map cmp-id {}))
+  ([cmp-id cfg]
+   {:cmp-id           cmp-id
+    :state-fn         (client-state-fn cfg)
+    :all-msgs-handler all-msgs-handler
+    :opts             (merge {:watch :state
+                              :reload-cmp false
+                              :snapshots-on-firehose false
+                              :msg-filtering false
+                              :count-open-requests false}
+                             cfg)}))
