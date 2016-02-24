@@ -1,3 +1,12 @@
+## v0.5.11 - February 24th, 2016
+
+```clojure
+[matthiasn/systems-toolbox-sente "0.5.11"]
+```
+
+* Open request counter (for asserting on all backend requests fulfilled)
+
+
 ## v0.5.9 - February 3rd, 2016
 
 ```clojure
