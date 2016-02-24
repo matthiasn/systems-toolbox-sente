@@ -71,7 +71,7 @@
 (defn all-msgs-handler
   "Handler function for all incoming messages. By default, all messages received by this component are
   forwarded to the server. When message filtering is enabled for this component, it will instead only
-  forward messages to the server for which the :fwd-to-backend key is set on the message metadata."
+  forward messages to the server for which the :forward-to-backend key is set in the message metadata."
   [{:keys [cmp-state msg-meta msg-type cfg] :as msg-map}]
   (let [fwd? (if (:msg-filtering cfg) (:forward-to-backend msg-meta) true)
         expect-response? (:expect-backend-response msg-meta)
