@@ -68,7 +68,7 @@
           user-routes (when routes-fn (routes-fn {:put-fn put-fn}))
           ws (sente/make-channel-socket! sente-web-server-adapter
                                          {:user-id-fn user-id-fn
-                                          :packer (sente-transit/get-flexi-packer :edn)})
+                                          :packer (sente-transit/get-flexi-packer :json)})
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
           cmp-routes [(GET "/" req (content-type (response (index-page-fn req)) "text/html"))
                       (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
