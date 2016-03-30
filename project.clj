@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.5.12"
+(defproject matthiasn/systems-toolbox-sente "0.5.13"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -6,26 +6,26 @@
 
   :source-paths ["src/cljc" "src/clj" "src/cljs"]
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/tools.reader "1.0.0-alpha1"]
-                 [org.clojure/clojurescript "1.7.228"]
-                 [org.ow2.asm/asm-all "5.0.4"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/tools.reader "1.0.0-beta1"]
+                 [org.clojure/clojurescript "1.8.40"]
+                 [org.ow2.asm/asm-all "5.1"]
                  [org.clojure/core.async "0.2.374" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/tools.logging "0.3.1"]
-                 [io.aviso/pretty "0.1.23"]
-                 [com.taoensso/sente "1.7.0"]
+                 [io.aviso/pretty "0.1.24"]
+                 [com.taoensso/sente "1.8.1"]
                  [org.clojure/core.match "0.3.0-alpha4"]
                  [com.cognitect/transit-clj "0.8.285"]
                  [com.cognitect/transit-cljs "0.8.237"]
-                 [compojure "1.4.0" :exclusions [commons-codec]]
+                 [compojure "1.5.0"]
                  [ring "1.4.0"]
-                 [ring/ring-defaults "0.1.5"]
+                 [ring/ring-defaults "0.2.0"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [org.jboss.logging/jboss-logging "3.3.0.Final"]
-                 [io.undertow/undertow-core "1.3.18.Final"]
-                 [org.immutant/web "2.1.2" :exclusions [org.jboss.xnio/xnio-api
+                 [io.undertow/undertow-core "1.3.19.Final"]
+                 [org.immutant/web "2.1.3" :exclusions [org.jboss.xnio/xnio-api
                                                         org.jboss.logging/jboss-logging
                                                         org.jboss.xnio/xnio-nio org.slf4j/slf4j-api]]]
 
   :plugins [[lein-codox "0.9.4" :exclusions [org.clojure/clojure]]
-            [lein-cljsbuild "1.1.2"]])
+            [lein-cljsbuild "1.1.3"]])
