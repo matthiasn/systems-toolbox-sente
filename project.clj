@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.5.15"
+(defproject matthiasn/systems-toolbox-sente "0.5.16"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -8,7 +8,7 @@
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.reader "1.0.0-beta1"]
-                 [org.clojure/clojurescript "1.8.40"]
+                 [org.clojure/clojurescript "1.8.51"]
                  [org.ow2.asm/asm-all "5.1"]
                  [org.clojure/core.async "0.2.374" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/tools.logging "0.3.1"]
@@ -27,5 +27,5 @@
                                                         org.jboss.logging/jboss-logging
                                                         org.jboss.xnio/xnio-nio org.slf4j/slf4j-api]]]
 
-  :plugins [[lein-codox "0.9.4" :exclusions [org.clojure/clojure]]
+  :plugins [[lein-codox "0.9.5" :exclusions [org.clojure/clojure]]
             [lein-cljsbuild "1.1.3"]])
