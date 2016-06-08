@@ -60,8 +60,10 @@
   [cfg]
   (fn
     [put-fn]
-    (let [ws (sente/make-channel-socket! "/chsk" {:type :auto
-                                                  :packer (sente-transit/get-flexi-packer :json)})
+    (let [opts (merge {:type :auto
+                       :packer (sente-transit/get-flexi-packer :edn)}
+                      (:sente-opts cfg))
+          ws (sente/make-channel-socket! "/chsk" opts)
           cmp-state (merge ws {:request-tags (atom {})})]
       (sente/start-chsk-router! (:ch-recv ws) (make-handler put-fn cmp-state cfg))
       (swap! (:state ws) assoc :buffered-msgs [])
