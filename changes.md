@@ -1,3 +1,12 @@
+## v0.5.18 - June 8th, 2016
+
+```clojure
+[matthiasn/systems-toolbox-sente "0.5.18"]
+```
+
+* PR #3: Allow default sente options to be overridden
+
+
 ## v0.5.11 - February 24th, 2016
 
 ```clojure
