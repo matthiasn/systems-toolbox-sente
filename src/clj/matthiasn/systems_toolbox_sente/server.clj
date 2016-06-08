@@ -59,16 +59,17 @@
        :key-password \"some-random-password\"}
 
   In order to disable unencrypted listening altogether, the :port key with a nil value can be specified."
-  [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg]
+  [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg sente-opts]
     :or   {user-id-fn random-user-id-fn
            host default-host
            port default-port}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host host :port port :http2? http2?} undertow-cfg)
           user-routes (when routes-fn (routes-fn {:put-fn put-fn}))
-          ws (sente/make-channel-socket! sente-web-server-adapter
-                                         {:user-id-fn user-id-fn
-                                          :packer (sente-transit/get-flexi-packer :json)})
+          opts (merge {:user-id-fn user-id-fn
+                       :packer (sente-transit/get-flexi-packer :json)}
+                      sente-opts)
+          ws (sente/make-channel-socket! sente-web-server-adapter opts)
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
           cmp-routes [(GET "/" req (content-type (response (index-page-fn req)) "text/html"))
                       (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
