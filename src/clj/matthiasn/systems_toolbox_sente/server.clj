@@ -2,6 +2,8 @@
   "This namespace contains a component for the server side of WebSockets communication."
   (:require
     [matthiasn.systems-toolbox-sente.util :as u]
+    [matthiasn.systems-toolbox-sente.spec :as spec]
+    [matthiasn.systems-toolbox.spec :as st-spec]
     [clojure.tools.logging :as log]
     [ring.middleware.defaults :as rmd]
     [ring.util.response :refer [resource-response response content-type]]
@@ -116,7 +118,9 @@
   [cmp-id cfg-map-or-index-page-fn]
   (let [cfg-map (if (map? cfg-map-or-index-page-fn)
                   cfg-map-or-index-page-fn
-                  {:index-page-fn cfg-map-or-index-page-fn})]
+                  (do (log/warn "DEPRECATED: use of index-page-fn in sente-cmp, use cfg-map instead")
+                      {:index-page-fn cfg-map-or-index-page-fn}))]
+    (st-spec/valid-or-no-spec? :st-sente/server-cfg cfg-map)
     {:cmp-id           cmp-id
      :state-fn         (sente-comp-fn cfg-map)
      :all-msgs-handler all-msgs-handler

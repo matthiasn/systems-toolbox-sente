@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.5.18"
+(defproject matthiasn/systems-toolbox-sente "0.6.1-SNAPSHOT"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -16,8 +16,9 @@
                  [com.cognitect/transit-clj "0.8.285"]
                  [com.cognitect/transit-cljs "0.8.237"]
                  [compojure "1.5.0"]
-                 [ring "1.4.0"]
-                 [ring/ring-defaults "0.2.0"]
+                 [matthiasn/systems-toolbox "0.6.1-SNAPSHOT"]
+                 [ring "1.5.0"]
+                 [ring/ring-defaults "0.2.1"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [org.jboss.logging/jboss-logging "3.3.0.Final"]
                  [io.undertow/undertow-core "1.3.22.Final"]
@@ -25,7 +26,7 @@
                                                         org.jboss.logging/jboss-logging
                                                         org.jboss.xnio/xnio-nio org.slf4j/slf4j-api]]]
 
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0-alpha3"]
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0-alpha5"]
                                   [org.clojure/clojurescript "1.9.36"]]}}
 
   :plugins [[lein-codox "0.9.5" :exclusions [org.clojure/clojure]]

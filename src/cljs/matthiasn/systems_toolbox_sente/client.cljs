@@ -1,6 +1,8 @@
 (ns matthiasn.systems-toolbox-sente.client
   "This namespace contains a component for the client side of WebSockets communication."
   (:require [matthiasn.systems-toolbox-sente.util :as u]
+            [matthiasn.systems-toolbox.spec :as st-spec]
+            [matthiasn.systems-toolbox-sente.spec :as spec]
             [cljs.core.match :refer-macros [match]]
             [taoensso.sente :as sente :refer (cb-success?)]
             [taoensso.sente.packers.transit :as sente-transit]))
@@ -22,7 +24,6 @@
   which another components might try to send something. Those messages would get lost, so they are
   buffered in :buffered-msgs until connection is ready."
   [put-fn ws]
-  (put-fn [:first-open true])
   (let [{:keys [state send-fn]} ws
         buffered-msgs (:buffered-msgs @state)]
     (doall (map #(send-fn (prepare-msg state %)) buffered-msgs))
@@ -102,6 +103,7 @@
   {:added "0.3.1"}
   ([cmp-id] (cmp-map cmp-id {}))
   ([cmp-id cfg]
+   (st-spec/valid-or-no-spec? :st-sente/client-cfg cfg)
    {:cmp-id           cmp-id
     :state-fn         (client-state-fn cfg)
     :all-msgs-handler all-msgs-handler
