@@ -4,8 +4,9 @@
             [matthiasn.systems-toolbox.spec :as st-spec]
             [matthiasn.systems-toolbox-sente.spec :as spec]
             [cljs.core.match :refer-macros [match]]
-            [taoensso.sente :as sente :refer (cb-success?)]
-            [taoensso.sente.packers.transit :as sente-transit]))
+            [taoensso.sente :as sente]
+            [taoensso.sente.packers.transit :as sente-transit]
+            [matthiasn.systems-toolbox.log :as l]))
 
 (defn set-cookie
   "Helper function for setting a cookie with the provided name."
@@ -104,12 +105,15 @@
   ([cmp-id] (cmp-map cmp-id {}))
   ([cmp-id cfg]
    (st-spec/valid-or-no-spec? :st-sente/client-cfg cfg)
-   {:cmp-id           cmp-id
-    :state-fn         (client-state-fn cfg)
-    :all-msgs-handler all-msgs-handler
-    :opts             (merge {:watch                 :state
-                              :reload-cmp            false
-                              :snapshots-on-firehose false
-                              :msg-filtering         false
-                              :count-open-requests   false}
-                             cfg)}))
+   (merge {:cmp-id   cmp-id
+           :state-fn (client-state-fn cfg)
+           :opts     (merge {:watch                 :state
+                             :reload-cmp            false
+                             :snapshots-on-firehose false
+                             :msg-filtering         false
+                             :count-open-requests   false}
+                            cfg)}
+          (if-let [msg-types (:relay-types cfg)]
+            {:handler-map (zipmap msg-types (repeat all-msgs-handler))}
+            (do (l/warn "using sente-cmp without specifying :relay-types is DEPRECATED")
+                {:all-msgs-handler all-msgs-handler})))))

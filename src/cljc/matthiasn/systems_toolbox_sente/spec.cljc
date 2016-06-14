@@ -5,6 +5,7 @@
 
 #?(:cljs (defn boolean? [x] (= (type x) js/Boolean)))
 
+(defn namespaced-keyword? [k] (and (keyword? k) (namespace k)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Server-side Sente Spec
@@ -19,6 +20,7 @@
 (s/def :st-sente/ssl-port number?)
 (s/def :st-sente/keystore string?)
 (s/def :st-sente/key-password string?)
+(s/def :st-sente/relay-types (s/* namespaced-keyword?))
 
 (s/def :st-sente/server-cfg
   (s/keys :req-un [:st-sente/index-page-fn]
@@ -31,7 +33,8 @@
                    :st-sente/sente-opts
                    :st-sente/ssl-port
                    :st-sente/keystore
-                   :st-sente/key-password]))
+                   :st-sente/key-password
+                   :st-sente/relay-types]))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

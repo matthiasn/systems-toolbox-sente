@@ -1,20 +1,19 @@
 (ns matthiasn.systems-toolbox-sente.server
   "This namespace contains a component for the server side of WebSockets communication."
-  (:require
-    [matthiasn.systems-toolbox-sente.util :as u]
-    [matthiasn.systems-toolbox-sente.spec :as spec]
-    [matthiasn.systems-toolbox.spec :as st-spec]
-    [clojure.tools.logging :as log]
-    [ring.middleware.defaults :as rmd]
-    [ring.util.response :refer [resource-response response content-type]]
-    [compojure.core :refer (routes GET POST)]
-    [compojure.route :as route]
-    [clojure.core.async :refer [<! chan put! mult tap pub sub timeout go-loop sliding-buffer]]
-    [immutant.web :as immutant]
-    [immutant.web.undertow :as undertow]
-    [taoensso.sente :as sente]
-    [taoensso.sente.server-adapters.immutant :refer (sente-web-server-adapter)]
-    [taoensso.sente.packers.transit :as sente-transit]))
+  (:require [matthiasn.systems-toolbox-sente.util :as u]
+            [matthiasn.systems-toolbox-sente.spec :as spec]
+            [matthiasn.systems-toolbox.spec :as st-spec]
+            [clojure.tools.logging :as log]
+            [ring.middleware.defaults :as rmd]
+            [ring.util.response :refer [response content-type]]
+            [compojure.core :refer [routes GET POST]]
+            [compojure.route :as route]
+            [immutant.web :as immutant]
+            [immutant.web.undertow :as undertow]
+            [taoensso.sente :as sente]
+            [taoensso.sente.server-adapters.immutant :refer (sente-web-server-adapter)]
+            [taoensso.sente.packers.transit :as sente-transit]
+            [matthiasn.systems-toolbox.log :as l]))
 
 (def ring-defaults-config
   (assoc-in rmd/site-defaults [:security :anti-forgery]
@@ -121,8 +120,12 @@
                   (do (log/warn "DEPRECATED: use of index-page-fn in sente-cmp, use cfg-map instead")
                       {:index-page-fn cfg-map-or-index-page-fn}))]
     (st-spec/valid-or-no-spec? :st-sente/server-cfg cfg-map)
-    {:cmp-id           cmp-id
-     :state-fn         (sente-comp-fn cfg-map)
-     :all-msgs-handler all-msgs-handler
-     :opts             {:watch :connected-uids
-                        :snapshots-on-firehose false}}))
+    (merge {:cmp-id           cmp-id
+            :state-fn         (sente-comp-fn cfg-map)
+            :all-msgs-handler all-msgs-handler
+            :opts             {:watch                 :connected-uids
+                               :snapshots-on-firehose false}}
+           (if-let [msg-types (:relay-types cfg-map)]
+             {:handler-map (zipmap msg-types (repeat all-msgs-handler))}
+             (do (l/warn "using sente-cmp without specifying :relay-types is DEPRECATED")
+                 {:all-msgs-handler all-msgs-handler})))))
