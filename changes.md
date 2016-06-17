@@ -1,3 +1,15 @@
+## v0.6.1-SNAPSHOT - June 17th, 2016
+
+```clojure
+[matthiasn/systems-toolbox-sente "0.6.1-SNAPSHOT"]
+```
+
+Potential BREAKING CHANGES:
+
+* :first-open message is now :sente/first-open
+* Clojure 1.9 required
+
+
 ## v0.5.18 - June 8th, 2016
 
 ```clojure

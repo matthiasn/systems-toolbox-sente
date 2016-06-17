@@ -28,6 +28,7 @@
   (let [{:keys [state send-fn]} ws
         buffered-msgs (:buffered-msgs @state)]
     (doall (map #(send-fn (prepare-msg state %)) buffered-msgs))
+    (put-fn [:sente/first-open])
     (swap! state dissoc :buffered-msgs)))
 
 (defn update-open-request
