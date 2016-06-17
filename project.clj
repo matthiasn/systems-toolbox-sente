@@ -11,6 +11,7 @@
                  [org.clojure/core.async "0.2.382"]
                  [org.clojure/tools.logging "0.3.1"]
                  [io.aviso/pretty "0.1.26"]
+                 [com.taoensso/encore "2.56.1"]
                  [com.taoensso/sente "1.8.1"]
                  [org.clojure/core.match "0.3.0-alpha4"]
                  [com.cognitect/transit-clj "0.8.285"]
@@ -26,7 +27,7 @@
                                                         org.jboss.logging/jboss-logging
                                                         org.jboss.xnio/xnio-nio org.slf4j/slf4j-api]]]
 
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0-alpha5"]
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0-alpha7"]
                                   [org.clojure/clojurescript "1.9.36"]]}}
 
   :plugins [[lein-codox "0.9.5" :exclusions [org.clojure/clojure]]
