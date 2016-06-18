@@ -3,8 +3,6 @@
     #?(:clj  [clojure.spec :as s]
        :cljs [cljs.spec :as s])))
 
-#?(:cljs (defn boolean? [x] (= (type x) js/Boolean)))
-
 (defn namespaced-keyword? [k] (and (keyword? k) (namespace k)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
