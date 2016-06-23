@@ -11,6 +11,7 @@
             [immutant.web :as immutant]
             [immutant.web.undertow :as undertow]
             [taoensso.sente :as sente]
+            [taoensso.sente.packers.transit :as sente-transit]
             [taoensso.sente.server-adapters.immutant :refer (sente-web-server-adapter)]))
 
 (def ring-defaults-config
@@ -65,8 +66,8 @@
   (fn [put-fn]
     (let [undertow-cfg (merge {:host host :port port :http2? http2?} undertow-cfg)
           user-routes (when routes-fn (routes-fn {:put-fn put-fn}))
-          opts (merge {:user-id-fn user-id-fn} sente-opts)
-          ws (sente/make-channel-socket! sente-web-server-adapter opts)
+          opts (merge {:user-id-fn user-id-fn :packer (sente-transit/get-transit-packer)} sente-opts)
+          ws (sente/make-channel-socket-server! sente-web-server-adapter opts)
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
           cmp-routes [(GET "/" req (content-type (response (index-page-fn req)) "text/html"))
                       (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
