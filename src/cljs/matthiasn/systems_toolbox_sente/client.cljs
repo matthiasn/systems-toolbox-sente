@@ -14,7 +14,7 @@
   (.set goog.net.cookies name value valid))
 
 (defn prepare-msg
-  "Converts a map with :msg-type, :msg-payload and :msg-meta into a vector that can be passwed
+  "Converts a map with :msg-type, :msg-payload and :msg-meta into a vector that can be passed
   to send-fn. It also set :sente-uuid on a msg-meta."
   [state {:keys [msg-type msg-payload msg-meta]}]
   [msg-type {:msg      msg-payload
@@ -47,7 +47,7 @@
   (fn [{:keys [event]}]
     (let [request-tags (:request-tags cmp-state)]
       (match event
-             [:chsk/state {:first-open? true}] (handle-first-open put-fn cmp-state)
+             [:chsk/state [_ {:first-open? true}]] (handle-first-open put-fn cmp-state)
              [:chsk/recv payload] (let [msg-w-meta (u/deserialize-meta payload)]
                                     (when (:count-open-requests cfg)
                                       (swap! request-tags dissoc (:tag (meta msg-w-meta)))
@@ -110,7 +110,10 @@
                              :reload-cmp            false
                              :snapshots-on-firehose false
                              :msg-filtering         false
-                             :count-open-requests   false}
+                             :count-open-requests   false
+                             :validate-in           false
+                             :validate-out          false
+                             :validate-state        false}
                             cfg)}
           (if-let [msg-types (:relay-types cfg)]
             {:handler-map (zipmap msg-types (repeat all-msgs-handler))}

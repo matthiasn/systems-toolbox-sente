@@ -119,9 +119,11 @@
     (st-spec/valid-or-no-spec? :st-sente/server-cfg cfg-map)
     (merge {:cmp-id           cmp-id
             :state-fn         (sente-comp-fn cfg-map)
-            :all-msgs-handler all-msgs-handler
             :opts             {:watch                 :connected-uids
-                               :snapshots-on-firehose false}}
+                               :snapshots-on-firehose false
+                               :validate-in           false
+                               :validate-out          false
+                               :validate-state        false}}
            (if-let [msg-types (:relay-types cfg-map)]
              {:handler-map (zipmap msg-types (repeat all-msgs-handler))}
              (do (log/warn "using sente-cmp without specifying :relay-types is DEPRECATED")

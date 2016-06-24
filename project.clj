@@ -9,8 +9,8 @@
   :dependencies [[org.clojure/tools.logging "0.3.1"]
                  [io.aviso/pretty "0.1.26"]
                  [com.taoensso/encore "2.56.1" :exclusions [org.clojure/tools.reader]]
-                 [com.taoensso/sente "1.9.0-beta2" :exclusions [org.clojure/tools.reader
-                                                                org.clojure/core.async]]
+                 [com.taoensso/sente "1.9.0-RC1" :exclusions [org.clojure/tools.reader
+                                                              org.clojure/core.async]]
                  [org.clojure/core.match "0.3.0-alpha4" :exclusions [org.clojure/core.memoize
                                                                      org.clojure/tools.analyzer.jvm]]
                  [com.cognitect/transit-clj "0.8.285"]
