@@ -8,22 +8,19 @@
 
   :dependencies [[org.clojure/tools.logging "0.3.1"]
                  [io.aviso/pretty "0.1.26"]
-                 [com.taoensso/encore "2.58.0"]
-                 [com.taoensso/sente "1.9.0-RC1"]
+                 [com.taoensso/encore "2.59.0" :exclusions [org.clojure/tools.reader]]
+                 [com.taoensso/sente "1.9.0-RC1" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/core.match "0.3.0-alpha4" :exclusions [org.clojure/core.memoize
                                                                      org.clojure/tools.analyzer.jvm]]
                  [com.cognitect/transit-clj "0.8.285"]
                  [com.cognitect/transit-cljs "0.8.239"]
-                 [ring "1.5.0"]
+                 [ring "1.5.0" :exclusions [org.clojure/tools.reader]]
                  [compojure "1.5.1"]
                  [matthiasn/systems-toolbox "0.6.1-SNAPSHOT"]
                  [ring/ring-defaults "0.2.1"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [org.jboss.logging/jboss-logging "3.3.0.Final"]
-                 [io.undertow/undertow-core "1.3.22.Final"]
-                 [org.immutant/web "2.1.4" :exclusions [org.jboss.xnio/xnio-api
-                                                        org.jboss.logging/jboss-logging
-                                                        org.jboss.xnio/xnio-nio org.slf4j/slf4j-api]]]
+                 [org.immutant/web "2.1.5" :exclusions [org.clojure/tools.reader]]]
 
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0-alpha8"]
                                   [org.clojure/clojurescript "1.9.93" :exclusions [org.clojure/tools.reader]]]}}
