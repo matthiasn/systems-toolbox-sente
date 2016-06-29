@@ -25,7 +25,7 @@
                                                         org.jboss.logging/jboss-logging
                                                         org.jboss.xnio/xnio-nio org.slf4j/slf4j-api]]]
 
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0-alpha7"]
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0-alpha8"]
                                   [org.clojure/clojurescript "1.9.93" :exclusions [org.clojure/tools.reader]]]}}
 
   :plugins [[lein-codox "0.9.5" :exclusions [org.clojure/clojure]]
