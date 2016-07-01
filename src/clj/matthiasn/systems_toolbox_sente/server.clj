@@ -120,6 +120,7 @@
     (merge {:cmp-id           cmp-id
             :state-fn         (sente-comp-fn cfg-map)
             :opts             {:watch                 :connected-uids
+                               :reload-cmp            false
                                :snapshots-on-firehose false
                                :validate-in           false
                                :validate-out          false
