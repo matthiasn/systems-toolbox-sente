@@ -77,6 +77,7 @@
                       (POST "/chsk" req (ajax-post-fn req))]
           cmp-routes (into cmp-routes user-routes)
           cmp-routes (into cmp-routes [(route/resources "/")
+                                       (route/resources "/" {:root "META-INF/resources/"})
                                        (route/not-found "Page not found")])
           cmp-routes (apply routes cmp-routes)]
       (let [ring-handler (rmd/wrap-defaults cmp-routes ring-defaults-config)

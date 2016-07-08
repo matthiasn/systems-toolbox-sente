@@ -1,3 +1,12 @@
+## v0.6.1-alpha2 - July 8th, 2016
+
+```clojure
+[matthiasn/systems-toolbox-sente "0.6.1-alpha2"]
+```
+
+* support WebJars resources
+
+
 ## v0.6.1-SNAPSHOT - June 17th, 2016
 
 ```clojure
