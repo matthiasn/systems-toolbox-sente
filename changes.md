@@ -1,3 +1,12 @@
+## v0.6.1-alpha3 - July 11th, 2016
+
+```clojure
+[matthiasn/systems-toolbox-sente "0.6.1-alpha3"]
+```
+
+* Sente 1.9
+
+
 ## v0.6.1-alpha2 - July 8th, 2016
 
 ```clojure
