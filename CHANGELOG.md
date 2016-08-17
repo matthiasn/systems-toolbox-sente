@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [v0.6.1-alpha6] - 2016-08-17
+### Changed
+- change priorities when setting port: undertow-cfg > ENV > cfg > default
+
 ## [v0.6.1-alpha5] - 2016-08-01
 ### Changed
 - Sente 1.10
@@ -12,7 +16,6 @@ All notable changes to this project will be documented in this file. This change
 ## [v0.6.1-alpha2] - 2016-07-08
 ### Changed
 - support WebJars resources
-
 
 ## v0.6.1-SNAPSHOT - June 17th, 2016
 ### BREAKING CHANGES
