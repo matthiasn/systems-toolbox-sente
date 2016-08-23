@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [v0.6.1-alpha7] - 2016-08-24
+### Changed
+- updated dependencies
+
 ## [v0.6.1-alpha6] - 2016-08-17
 ### Changed
 - change priorities when setting port: undertow-cfg > ENV > cfg > default
