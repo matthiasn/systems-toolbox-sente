@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.5.18"
+(defproject matthiasn/systems-toolbox-sente "0.5.19"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -6,15 +6,13 @@
 
   :source-paths ["src/cljc" "src/clj" "src/cljs"]
 
-  :dependencies [[org.clojure/tools.reader "1.0.0-beta1"]
-                 [org.ow2.asm/asm-all "5.1"]
-                 [org.clojure/core.async "0.2.374" :exclusions [org.clojure/tools.reader]]
-                 [org.clojure/tools.logging "0.3.1"]
-                 [io.aviso/pretty "0.1.26"]
-                 [com.taoensso/sente "1.8.1"]
-                 [org.clojure/core.match "0.3.0-alpha4"]
+  :dependencies [[org.clojure/tools.logging "0.3.1"]
+                 [com.taoensso/sente "1.9.0" :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/core.match "0.3.0-alpha4" :exclusions [org.clojure/core.memoize
+                                                                     org.clojure/tools.analyzer.jvm]]
+
                  [com.cognitect/transit-clj "0.8.285"]
-                 [com.cognitect/transit-cljs "0.8.237"]
+                 [com.cognitect/transit-cljs "0.8.239"]
                  [compojure "1.5.0"]
                  [ring "1.4.0"]
                  [ring/ring-defaults "0.2.0"]
