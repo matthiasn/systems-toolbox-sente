@@ -67,7 +67,7 @@
     (let [undertow-cfg (merge {:host host :port port :http2? http2?} undertow-cfg)
           user-routes (when routes-fn (routes-fn {:put-fn put-fn}))
           opts (merge {:user-id-fn user-id-fn
-                       :packer (sente-transit/get-flexi-packer :json)}
+                       :packer (sente-transit/get-transit-packer)}
                       sente-opts)
           ws (sente/make-channel-socket! sente-web-server-adapter opts)
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
