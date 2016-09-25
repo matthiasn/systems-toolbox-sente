@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [v0.6.1-alpha8] - 2016-09-25
+### Changed
+- dependency cleanup
+
 ## [v0.6.1-alpha7] - 2016-08-24
 ### Changed
 - updated dependencies
