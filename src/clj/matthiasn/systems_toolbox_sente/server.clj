@@ -74,7 +74,7 @@
           cmp-routes [(GET "/" req (content-type (response (index-page-fn req)) "text/html"))
                       (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
                       (POST "/chsk" req (ajax-post-fn req))]
-          cmp-routes (into cmp-routes user-routes)
+          cmp-routes (into user-routes cmp-routes)
           cmp-routes (into cmp-routes [(route/resources "/")
                                        (route/not-found "Page not found")])
           cmp-routes (apply routes cmp-routes)]
