@@ -92,7 +92,7 @@
                                                  "text/html"))
                       (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
                       (POST "/chsk" req (ajax-post-fn req))]
-          cmp-routes (into cmp-routes user-routes)
+          cmp-routes (into user-routes cmp-routes)
           cmp-routes (into cmp-routes
                            [(route/resources "/")
                             (route/resources "/" {:root "META-INF/resources/"})
