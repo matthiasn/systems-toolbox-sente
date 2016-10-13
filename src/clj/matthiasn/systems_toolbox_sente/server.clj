@@ -81,7 +81,7 @@
                                          port)
                                :http2? http2?}
                               undertow-cfg)
-          user-routes (when routes-fn (routes-fn {:put-fn put-fn}))
+          user-routes (if routes-fn (routes-fn {:put-fn put-fn}) [])
           opts (merge {:user-id-fn     user-id-fn
                        :packer         (sente-transit/get-transit-packer)
                        :send-buf-ms-ws 5}
