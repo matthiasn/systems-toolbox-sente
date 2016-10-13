@@ -44,7 +44,7 @@
   (fn [{:keys [event]}]
     (let [request-tags (:request-tags cmp-state)]
       (match event
-             [:chsk/state {:first-open? true}] (handle-first-open put-fn cmp-state)
+             [:chsk/state [_ {:first-open? true}]] (handle-first-open put-fn cmp-state)
              [:chsk/recv payload] (let [msg-w-meta (u/deserialize-meta payload)]
                                     (when (:count-open-requests cfg)
                                       (swap! request-tags dissoc (:tag (meta msg-w-meta)))
