@@ -65,7 +65,7 @@
            port default-port}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host host :port port :http2? http2?} undertow-cfg)
-          user-routes (when routes-fn (routes-fn {:put-fn put-fn}))
+          user-routes (if routes-fn (routes-fn {:put-fn put-fn}) [])
           opts (merge {:user-id-fn user-id-fn
                        :packer (sente-transit/get-transit-packer)}
                       sente-opts)
