@@ -1,3 +1,6 @@
+machine:
+  java:
+    version: openjdk8
 test:
   pre:
     - chmod +x bin/get-chromedriver.sh

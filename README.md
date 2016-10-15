@@ -23,6 +23,8 @@ Also, you can run the tests using **[PhantomJS](http://phantomjs.org/)**:
     $ BROWSER=phantomjs lein integration-tests
 
 
+Tests are run automatically on **CircleCI** using Chrome: [![CircleCI Build Status](https://circleci.com/gh/matthiasn/systems-toolbox-sente.svg?&style=shield)](https://circleci.com/gh/matthiasn/systems-toolbox-sente)
+
 On **TravisCI**, the tests are run on **[PhantomJS](http://phantomjs.org/)**: [![TravisCI Build Status](https://travis-ci.org/matthiasn/systems-toolbox-sente.svg?branch=master)](https://travis-ci.org/matthiasn/systems-toolbox-sente)
 
 
