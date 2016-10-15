@@ -34,7 +34,6 @@
                    :st-sente/key-password
                    :st-sente/relay-types]))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Client-side Sente Spec
 (s/def :st-sente/count-open-requests boolean?)
