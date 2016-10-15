@@ -1,0 +1,8 @@
+test:
+  pre:
+    - chmod +x bin/get-chromedriver.sh
+    - bin/get-chromedriver.sh
+  override:
+    - lein integration-tests
+  post:
+    - ant

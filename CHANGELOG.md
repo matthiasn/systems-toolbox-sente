@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [v0.6.1-alpha11] - 2016-10-15
+### Changed
+- integration tests added
+
 ## [v0.6.1-alpha10] - 2016-10-13
 ### Changed
 - updated dependencies
