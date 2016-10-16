@@ -70,9 +70,9 @@
    last."
   [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg
            sente-opts]
-    :or   {user-id-fn random-user-id-fn
-           host "localhost"
-           port 8888} :as cfg-map}]
+    :or {user-id-fn random-user-id-fn
+         host       "localhost"
+         port       8888} :as cfg-map}]
   (log/debug "Starting sente-cmp:" cfg-map)
   (fn [put-fn]
     (let [undertow-cfg (merge {:host   (or env-host host)
@@ -146,15 +146,14 @@
                       {:index-page-fn cfg-map-or-index-page-fn}))]
     (st-spec/valid-or-no-spec? :st-sente/server-cfg cfg-map)
     (merge
-      {:cmp-id           cmp-id
-       :state-fn         (sente-comp-fn cfg-map)
-       :opts             {:watch                 :connected-uids
-                          :reload-cmp            false
-                          :snapshots-on-firehose false
-                          :validate-in           false
-                          :validate-out          false
-                          :validate-state        false}}
-
+      {:cmp-id   cmp-id
+       :state-fn (sente-comp-fn cfg-map)
+       :opts     {:watch                 :connected-uids
+                  :reload-cmp            false
+                  :snapshots-on-firehose false
+                  :validate-in           false
+                  :validate-out          false
+                  :validate-state        false}}
       (if-let [msg-types (:relay-types cfg-map)]
         {:handler-map (zipmap msg-types (repeat all-msgs-handler))}
         (do (log/warn

@@ -28,6 +28,11 @@ Tests are run automatically on **CircleCI** using Chrome: [![CircleCI Build Stat
 On **TravisCI**, the tests are run on **[PhantomJS](http://phantomjs.org/)**: [![TravisCI Build Status](https://travis-ci.org/matthiasn/systems-toolbox-sente.svg?branch=master)](https://travis-ci.org/matthiasn/systems-toolbox-sente)
 
 
+Test coverage can also be checked:
+
+    $ lein test-coverage
+
+
 ## License
 
 Copyright © 2015, 2016 Matthias Nehlsen

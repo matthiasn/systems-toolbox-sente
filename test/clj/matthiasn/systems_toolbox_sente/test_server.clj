@@ -32,8 +32,9 @@
     port))
 
 (defn restart!
-  "Starts or restarts system by asking switchboard to fire up the provided ws-cmp, a scheduler
-  component and the ptr component, which handles and counts messages about mouse moves."
+  "Starts or restarts system by asking switchboard to fire up the provided ws-cmp,
+   a scheduler component and the ptr component, which handles and counts messages
+   about mouse moves."
   []
   (let [port (get-free-port)]
     (sb/send-mult-cmd

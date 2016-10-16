@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.1-alpha11"
+(defproject matthiasn/systems-toolbox-sente "0.6.1-alpha12"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -39,9 +39,8 @@
                            :exclusions [org.clojure/core.cache
                                         org.apache.httpcomponents/httpcore
                                         commons-io]]]
-         :resource-paths ["test-resources"]}
-   :test {:resource-paths ["test-resources"]
-          :jvm-opts       ["-Dwebdriver.chrome.driver=bin/chromedriver"]}}
+         :resource-paths ["test-resources"]
+         :jvm-opts       ["-Dwebdriver.chrome.driver=bin/chromedriver"]}}
 
   :test-paths ["test/cljc" "test/clj"]
 
@@ -53,7 +52,9 @@
 
   :clean-targets ^{:protect false} ["test-resources/public/js/build/" "target/"]
 
-  :aliases {"integration-tests" ["do" "clean" ["cljsbuild" "once" "test"] "test2junit"]}
+  :aliases
+  {"integration-tests" ["do" "clean" ["cljsbuild" "once" "test"] "test2junit"]
+   "test-coverage" ["do" "clean" ["cljsbuild" "once" "test"] "cloverage"]}
 
   :cljsbuild
   {:builds [{:id           "test"
