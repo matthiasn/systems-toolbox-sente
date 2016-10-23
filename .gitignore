@@ -13,3 +13,4 @@ pom.xml.asc
 test-resources/public/js
 build.xml
 bin/chromedriver
+bin/geckodriver

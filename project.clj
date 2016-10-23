@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.1-alpha12"
+(defproject matthiasn/systems-toolbox-sente "0.6.1-alpha13"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -24,15 +24,15 @@
 
   :profiles
   {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha13"]
-                          [org.clojure/clojurescript "1.9.229"]
+                          [org.clojure/clojurescript "1.9.293"]
                           [matthiasn/systems-toolbox-ui "0.6.1-alpha10"]
                           [ch.qos.logback/logback-classic "1.1.7"]
                           [hiccup "1.0.5"]
-                          [org.seleniumhq.selenium/selenium-java "3.0.0"]
-                          [org.seleniumhq.selenium/selenium-api "3.0.0"]
-                          [org.seleniumhq.selenium/selenium-server "3.0.0"]
-                          [org.seleniumhq.selenium/selenium-remote-driver "3.0.0"]
-                          [org.seleniumhq.selenium/selenium-chrome-driver "3.0.0"]
+                          [org.seleniumhq.selenium/selenium-java "3.0.1"]
+                          [org.seleniumhq.selenium/selenium-api "3.0.1"]
+                          [org.seleniumhq.selenium/selenium-server "3.0.1"]
+                          [org.seleniumhq.selenium/selenium-remote-driver "3.0.1"]
+                          [org.seleniumhq.selenium/selenium-chrome-driver "3.0.1"]
                           [com.codeborne/phantomjsdriver "1.3.0"
                            :exclusions [org.apache.httpcomponents/httpcore]]
                           [clj-webdriver "0.7.2"
@@ -40,7 +40,8 @@
                                         org.apache.httpcomponents/httpcore
                                         commons-io]]]
          :resource-paths ["test-resources"]
-         :jvm-opts       ["-Dwebdriver.chrome.driver=bin/chromedriver"]}}
+         :jvm-opts       ["-Dwebdriver.chrome.driver=bin/chromedriver"
+                          "-Dwebdriver.gecko.driver=bin/geckodriver"]}}
 
   :test-paths ["test/cljc" "test/clj"]
 
