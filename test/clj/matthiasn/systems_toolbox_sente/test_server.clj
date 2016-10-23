@@ -51,8 +51,8 @@
        [:cmd/route {:from :server/store-cmp :to #{:server/ws-cmp}}]])
     (tx/set-driver! {:browser (condp =  (get (System/getenv) "BROWSER")
                                 "phantomjs" :phantomjs
-                                "firefox" :firefox
-                                :chrome)})
+                                "chrome" :chrome
+                                :firefox)})
     (tx/to (str "http://localhost:" port))))
 
 (defn one-time-teardown []
