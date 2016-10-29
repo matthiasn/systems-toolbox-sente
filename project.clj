@@ -23,9 +23,9 @@
                  [org.jboss.logging/jboss-logging "3.3.0.Final"]]
 
   :profiles
-  {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha13"]
+  {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha14"]
                           [org.clojure/clojurescript "1.9.293"]
-                          [matthiasn/systems-toolbox-ui "0.6.1-alpha10"]
+                          [matthiasn/systems-toolbox-ui "0.6.1-alpha11"]
                           [ch.qos.logback/logback-classic "1.1.7"]
                           [hiccup "1.0.5"]
                           [org.seleniumhq.selenium/selenium-java "3.0.1"]
