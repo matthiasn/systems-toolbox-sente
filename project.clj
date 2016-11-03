@@ -17,7 +17,7 @@
                  [com.cognitect/transit-cljs "0.8.239"]
                  [ring "1.5.0"]
                  [compojure "1.5.1"]
-                 [matthiasn/systems-toolbox "0.6.1-alpha8"]
+                 [matthiasn/systems-toolbox "0.6.1-alpha9"]
                  [ring/ring-defaults "0.2.1"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [org.jboss.logging/jboss-logging "3.3.0.Final"]]
