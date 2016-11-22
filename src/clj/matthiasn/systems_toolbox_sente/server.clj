@@ -73,7 +73,6 @@
     :or {user-id-fn random-user-id-fn
          host       "localhost"
          port       8888} :as cfg-map}]
-  (log/debug "Starting sente-cmp:" cfg-map)
   (fn [put-fn]
     (let [undertow-cfg (merge {:host   (or env-host host)
                                :port   (if env-port

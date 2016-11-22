@@ -44,19 +44,28 @@
                                          :relay-types   #{:cnt/inc
                                                           :cnt/dec
                                                           :cnt/add
-                                                          :cnt/remove}
+                                                          :cnt/remove
+                                                          :broadcast/msg}
                                          :port          port})
           (st/cmp-map :server/store-cmp)}]
        [:cmd/route {:from :server/ws-cmp :to #{:server/store-cmp}}]
        [:cmd/route {:from :server/store-cmp :to #{:server/ws-cmp}}]])
-    (tx/set-driver! {:browser (condp =  (get (System/getenv) "BROWSER")
+    (tx/set-driver! {:browser (condp = (get (System/getenv) "BROWSER")
                                 "phantomjs" :phantomjs
                                 "chrome" :chrome
                                 :firefox)})
     (tx/to (str "http://localhost:" port))))
 
 (defn one-time-teardown []
+  (sb/send-cmd switchboard [:cmd/shutdown-all])
   (tx/quit tx/*driver*))
+
+(defn send-to-ws-cmp
+  [msg]
+  (sb/send-cmd
+    switchboard
+    [:cmd/send {:to  :server/ws-cmp
+                :msg msg}]))
 
 (defn once-fixture
   [f]

@@ -1,8 +1,10 @@
-(ns matthiasn.systems-toolbox-sente.counter-test
+(ns matthiasn.systems-toolbox-sente.integration-test
   (:require [clojure.test :refer :all]
             [matthiasn.systems-toolbox-sente.test-server :as ts]
             [matthiasn.systems-toolbox-sente.test-store :as st]
-            [clj-webdriver.taxi :as tx]))
+            [clj-webdriver.taxi :as tx]
+            [clojure.string :as s]
+            [clojure.tools.logging :as log]))
 
 (deftest open-page
   (testing "open counter example, interact, UI should change"
@@ -54,5 +56,13 @@
     (testing "Backend store component has received all messages from frontend."
       (is (= @st/state
              {:cnt/inc 110, :cnt/dec 55, :cnt/add 1, :cnt/remove 1})))))
+
+(deftest broadcast-test
+  (testing "broadcast message is relayed to connected client"
+    (ts/send-to-ws-cmp (with-meta [:broadcast/msg "broadcast message"]
+                                  {:sente-uid :broadcast}))
+    (let [pre-code-text #(tx/text (tx/find-element {:css "pre code"}))]
+      (tx/wait-until #(s/includes? (pre-code-text) "broadcast message"))
+      (is (s/includes? (pre-code-text) "broadcast message")))))
 
 (use-fixtures :once ts/once-fixture)

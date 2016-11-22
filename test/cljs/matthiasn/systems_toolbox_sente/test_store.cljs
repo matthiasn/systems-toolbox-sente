@@ -28,6 +28,11 @@
   [{:keys [current-state]}]
   {:new-state (update-in current-state [:counters] conj 0)})
 
+(defn broadcast-handler
+  "Handler for adding counter at the end"
+  [{:keys [current-state msg-payload]}]
+  {:new-state (assoc-in current-state [:broadcast] msg-payload)})
+
 (defn state-fn
   "Returns clean initial component state atom"
   [_put-fn]
@@ -38,7 +43,8 @@
   {:cmp-id      cmp-id
    :state-fn    state-fn
    :state-spec  :test/store-spec
-   :handler-map {:cnt/inc    inc-handler
-                 :cnt/dec    dec-handler
-                 :cnt/remove remove-handler
-                 :cnt/add    add-handler}})
+   :handler-map {:cnt/inc       inc-handler
+                 :cnt/dec       dec-handler
+                 :cnt/remove    remove-handler
+                 :cnt/add       add-handler
+                 :broadcast/msg broadcast-handler}})

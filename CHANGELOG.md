@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [v0.6.1-alpha14] - 2016-11-23
+### Changed
+- latest dependencies
+- added test for broadcast messages
+- mock namespace moved to test dir
+
 ## [v0.6.1-alpha13] - 2016-10-23
 ### Changed
 - latest ClojureScript

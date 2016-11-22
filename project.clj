@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.1-alpha13"
+(defproject matthiasn/systems-toolbox-sente "0.6.1-alpha14"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -13,7 +13,7 @@
                  [org.clojure/core.match "0.3.0-alpha4"
                   :exclusions [org.clojure/core.memoize
                                org.clojure/tools.analyzer.jvm]]
-                 [com.cognitect/transit-clj "0.8.290"]
+                 [com.cognitect/transit-clj "0.8.295"]
                  [com.cognitect/transit-cljs "0.8.239"]
                  [ring "1.5.0"]
                  [compojure "1.5.1"]
@@ -45,7 +45,7 @@
 
   :test-paths ["test/cljc" "test/clj"]
 
-  :plugins [[lein-codox "0.10.1" :exclusions [org.clojure/clojure]]
+  :plugins [[lein-codox "0.10.2" :exclusions [org.clojure/clojure]]
             [test2junit "1.2.5"]
             [lein-cljsbuild "1.1.4"]]
 
