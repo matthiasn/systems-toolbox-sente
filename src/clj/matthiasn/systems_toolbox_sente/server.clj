@@ -80,6 +80,7 @@
                                          port)
                                :http2? http2?}
                               undertow-cfg)
+          host (:host undertow-cfg)
           user-routes (if routes-fn (routes-fn {:put-fn put-fn}) [])
           opts (merge {:user-id-fn     user-id-fn
                        :packer         (sente-transit/get-transit-packer)

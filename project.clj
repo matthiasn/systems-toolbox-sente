@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.1"
+(defproject matthiasn/systems-toolbox-sente "0.6.2"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -13,11 +13,11 @@
                  [org.clojure/core.match "0.3.0-alpha4"
                   :exclusions [org.clojure/core.memoize
                                org.clojure/tools.analyzer.jvm]]
-                 [com.cognitect/transit-clj "0.8.295"]
+                 [com.cognitect/transit-clj "0.8.297"]
                  [com.cognitect/transit-cljs "0.8.239"]
                  [ring "1.5.0"]
                  [compojure "1.5.1"]
-                 [matthiasn/systems-toolbox "0.6.1"]
+                 [matthiasn/systems-toolbox "0.6.3"]
                  [ring/ring-defaults "0.2.1"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [org.jboss.logging/jboss-logging "3.3.0.Final"]]
@@ -26,7 +26,7 @@
   {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha14"]
                           [org.clojure/clojurescript "1.9.293"]
                           [matthiasn/systems-toolbox-ui "0.6.1"]
-                          [ch.qos.logback/logback-classic "1.1.7"]
+                          [ch.qos.logback/logback-classic "1.1.8"]
                           [hiccup "1.0.5"]
                           [org.seleniumhq.selenium/selenium-java "3.0.1"]
                           [org.seleniumhq.selenium/selenium-api "3.0.1"]
@@ -47,7 +47,7 @@
 
   :plugins [[lein-codox "0.10.2" :exclusions [org.clojure/clojure]]
             [test2junit "1.2.5"]
-            [lein-cljsbuild "1.1.4"]]
+            [lein-cljsbuild "1.1.5"]]
 
   :test2junit-output-dir ~(or (System/getenv "CIRCLE_TEST_REPORTS") "target/test2junit")
 
@@ -59,7 +59,7 @@
 
   :cljsbuild
   {:builds [{:id           "test"
-             :source-paths ["src/cljs" "test/cljs/"]
+             :source-paths ["src/cljs" "test/cljc" "test/cljs"]
              :figwheel     true
              :compiler     {:main          "matthiasn.systems-toolbox-sente.test-core"
                             :asset-path    "js/build"

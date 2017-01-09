@@ -48,7 +48,7 @@
    decreasing the number when a message is encountered for which there was an
    expectation for a response from the backend."
   [put-fn cmp-state cfg]
-  (fn [{:keys [event]}]
+  (fn sente-handler [{:keys [event]}]
     (let [request-tags (:request-tags cmp-state)]
       (match event
              [:chsk/state [_ {:first-open? true}]]
