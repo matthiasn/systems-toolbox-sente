@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.3] - 2017-01-09
+### Changed
+- fixed problem with new handler result validation
+
 ## [0.6.2] - 2017-01-09
 ### Changed
 - improved logging

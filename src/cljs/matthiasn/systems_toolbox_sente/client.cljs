@@ -100,7 +100,8 @@
         (update-open-request @request-tags))
       (if (:open? @state)
         (send-fn (prepare-msg state msg))
-        (swap! state update-in [:buffered-msgs] conj msg)))))
+        (swap! state update-in [:buffered-msgs] conj msg))))
+  {})
 
 (defn cmp-map
   "Returns configuration map for creating a client-side WebSockets communication
