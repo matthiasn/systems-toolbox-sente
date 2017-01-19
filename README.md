@@ -6,6 +6,7 @@ In addition, the server side component also allows specifying routes and their h
 
 These components have previously been part of the **[system-toolbox](https://github.com/matthiasn/systems-toolbox)** library and were moved into a separate repository to reduce dependencies.
 
+[![Dependencies Status](https://jarkeeper.com/matthiasn/systems-toolbox-sente/status.svg)](https://jarkeeper.com/matthiasn/systems-toolbox-sente)
 
 ## Testing
 

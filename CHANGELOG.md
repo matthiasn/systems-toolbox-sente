@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.5] - 2017-01-19
+### Changed
+- latest immutant 
+
 ## [0.6.4] - 2017-01-12
 ### Changed
 - latest deps, including the security fix for ring
