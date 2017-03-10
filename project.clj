@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.5"
+(defproject matthiasn/systems-toolbox-sente "0.6.6"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -7,8 +7,7 @@
   :source-paths ["src/cljc" "src/clj" "src/cljs"]
 
   :dependencies [[org.clojure/tools.logging "0.3.1"]
-                 [org.clojure/tools.reader "1.0.0-beta3"]
-                 [com.taoensso/sente "1.11.0"]
+                 [com.taoensso/sente "1.11.0" :exclusions [org.clojure/core.async]]
                  [org.immutant/web "2.1.6" :exclusions [ring/ring-core]]
                  [org.clojure/core.match "0.3.0-alpha4"
                   :exclusions [org.clojure/core.memoize
@@ -17,23 +16,26 @@
                  [com.cognitect/transit-cljs "0.8.239"]
                  [ring "1.5.1"]
                  [compojure "1.5.2"]
-                 [matthiasn/systems-toolbox "0.6.4"]
-                 [ring/ring-defaults "0.2.2"]
+                 [matthiasn/systems-toolbox "0.6.5"]
+                 [ring/ring-defaults "0.2.3"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [org.jboss.logging/jboss-logging "3.3.0.Final"]]
 
   :profiles
   {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha14"]
-                          [org.clojure/clojurescript "1.9.293"]
-                          [matthiasn/systems-toolbox-ui "0.6.1"]
-                          [ch.qos.logback/logback-classic "1.1.8"]
+                          [org.clojure/clojurescript "1.9.473"]
+                          [matthiasn/systems-toolbox-ui "0.6.2"]
+                          [ch.qos.logback/logback-classic "1.2.1"]
                           [hiccup "1.0.5"]
-                          [org.seleniumhq.selenium/selenium-java "3.0.1"]
-                          [org.seleniumhq.selenium/selenium-api "3.0.1"]
-                          [org.seleniumhq.selenium/selenium-server "3.0.1"]
-                          [org.seleniumhq.selenium/selenium-remote-driver "3.0.1"]
-                          [org.seleniumhq.selenium/selenium-chrome-driver "3.0.1"]
-                          [com.codeborne/phantomjsdriver "1.3.0"
+                          [org.seleniumhq.selenium/selenium-java "3.3.0"
+                           :exclusions [org.seleniumhq.selenium/selenium-support]]
+                          [org.seleniumhq.selenium/selenium-api "3.3.0"]
+                          [org.seleniumhq.selenium/selenium-server "3.3.0"
+                           :exclusions [org.seleniumhq.selenium/selenium-support]]
+                          [org.seleniumhq.selenium/selenium-support "3.3.0"]
+                          [org.seleniumhq.selenium/selenium-remote-driver "3.3.0"]
+                          [org.seleniumhq.selenium/selenium-chrome-driver "3.3.0"]
+                          [com.codeborne/phantomjsdriver "1.4.1"
                            :exclusions [org.apache.httpcomponents/httpcore]]
                           [clj-webdriver "0.7.2"
                            :exclusions [org.clojure/core.cache
@@ -45,7 +47,7 @@
 
   :test-paths ["test/cljc" "test/clj"]
 
-  :plugins [[lein-codox "0.10.2" :exclusions [org.clojure/clojure]]
+  :plugins [[lein-codox "0.10.3" :exclusions [org.clojure/clojure]]
             [test2junit "1.2.5"]
             [lein-cljsbuild "1.1.5"]]
 
