@@ -102,9 +102,10 @@
                              (apply routes user-routes)
                              (wrap-routes-defaults cmp-routes-2))]
       (let [wrapped-in-middleware (if middleware (middleware all-routes) all-routes)
-            server (immutant/run wrapped-in-middleware (undertow/options undertow-cfg))]
-        (when (:port undertow-cfg)
-          (log/info "Immutant-web is listening on port" port "on interface" host))
+            server (immutant/run wrapped-in-middleware (undertow/options undertow-cfg))
+            host (:host undertow-cfg)
+            port (:port undertow-cfg)]
+        (log/info "Immutant-web listening on port" port "on interface" host)
         (when-let [ssl-port (:ssl-port undertow-cfg)]
           (log/info
             "Immutant-web is listening on SSL-port" ssl-port "on interface" host))
