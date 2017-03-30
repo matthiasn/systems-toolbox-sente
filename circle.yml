@@ -3,8 +3,8 @@ machine:
     version: openjdk8
 test:
   pre:
-    - chmod +x bin/get-chromedriver.sh
-    - bin/get-chromedriver.sh
+    - chmod +x bin/get-geckodriver.sh
+    - bin/get-geckodriver.sh
   override:
     - lein integration-tests
   post:

@@ -42,7 +42,8 @@
                                         org.apache.httpcomponents/httpcore
                                         commons-io]]]
          :resource-paths ["test-resources"]
-         :jvm-opts       ["-Dwebdriver.chrome.driver=bin/chromedriver"]}}
+         :jvm-opts       ["-Dwebdriver.chrome.driver=bin/chromedriver"
+                          "-Dwebdriver.gecko.driver=bin/geckodriver"]}}
 
   :test-paths ["test/clj"]
 
