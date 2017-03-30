@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.9] - 2017-03-30
+### Changed
+- flexible user routes
+
 ## [0.6.7] - 2017-03-17
 ### Changed
 - latest deps

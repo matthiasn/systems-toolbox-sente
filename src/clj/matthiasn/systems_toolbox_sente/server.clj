@@ -68,13 +68,18 @@
    can be overriden through setting the HOST and PORT environment variables.
    The can then also be set as part of the undertow-cfg map, which is merged in
    last."
-  [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg
-           sente-opts]
+   [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg
+            sente-opts]
     :or {user-id-fn random-user-id-fn
          host       "localhost"
-         port       8888} :as cfg-map}]
+         port       8888}
+     :as cfg-map}]
   (fn [put-fn]
-    (let [undertow-cfg (merge {:host host :port port :http2? http2?} undertow-cfg)
+    (let [undertow-cfg (merge {:host   (or env-host host)
+                               :port   (if env-port
+                                         (Integer/parseInt env-port)
+                                         port)
+                               :http2? http2?} undertow-cfg)
           wrap-routes-defaults #(wrap-routes (apply routes %) rmd/wrap-defaults ring-defaults-config)
           user-routes (if-not routes-fn
                         []
