@@ -88,8 +88,8 @@
           cmp-routes-1 [(GET "/" req (content-type (response (index-page-fn req)) "text/html"))
                         (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
                         (POST "/chsk" req (ajax-post-fn req))]
-          cmp-routes-2 [(route/resources "/webjars/" {:root "webjars"})
-                        (route/resources "/")
+          cmp-routes-2 [(route/resources "/")
+                        (route/resources "/" {:root "META-INF/resources/"})
                         (route/not-found "Page not found")]
           ;; Sente's and resources' routes are wrapped in ring-defaults. User routes are not,
           ;; by default. However, user can use (wrap-routes-defaults) to use defaults, if needed.
