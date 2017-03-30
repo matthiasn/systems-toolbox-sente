@@ -5,7 +5,7 @@
     [clojure.tools.logging :as log]
     [ring.middleware.defaults :as rmd]
     [ring.util.response :refer [resource-response response content-type]]
-    [compojure.core :refer (routes GET POST)]
+    [compojure.core :refer (routes wrap-routes GET POST)]
     [compojure.route :as route]
     [clojure.core.async :refer [<! chan put! mult tap pub sub timeout go-loop sliding-buffer]]
     [immutant.web :as immutant]
@@ -65,21 +65,27 @@
            port default-port}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host host :port port :http2? http2?} undertow-cfg)
-          user-routes (if routes-fn (routes-fn {:put-fn put-fn}) [])
+          wrap-routes-defaults #(wrap-routes (apply routes %) rmd/wrap-defaults ring-defaults-config)
+          user-routes (if-not routes-fn
+                        []
+                        (routes-fn {:put-fn put-fn
+                                    :wrap-routes-defaults wrap-routes-defaults}))
           opts (merge {:user-id-fn user-id-fn
                        :packer (sente-transit/get-transit-packer)}
                       sente-opts)
           ws (sente/make-channel-socket! sente-web-server-adapter opts)
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
-          cmp-routes [(GET "/" req (content-type (response (index-page-fn req)) "text/html"))
-                      (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
-                      (POST "/chsk" req (ajax-post-fn req))]
-          cmp-routes (into user-routes cmp-routes)
-          cmp-routes (into cmp-routes [(route/resources "/")
-                                       (route/not-found "Page not found")])
-          cmp-routes (apply routes cmp-routes)]
-      (let [ring-handler (rmd/wrap-defaults cmp-routes ring-defaults-config)
-            wrapped-in-middleware (if middleware (middleware ring-handler) ring-handler)
+          cmp-routes-1 [(GET "/" req (content-type (response (index-page-fn req)) "text/html"))
+                        (GET "/chsk" req (ajax-get-or-ws-handshake-fn req))
+                        (POST "/chsk" req (ajax-post-fn req))]
+          cmp-routes-2 [(route/resources "/")
+                        (route/not-found "Page not found")]
+          ;; Sente's and resources' routes are wrapped in ring-defaults. User routes are not,
+          ;; by default. However, user can use (wrap-routes-defaults) to use defaults, if needed.
+          all-routes (routes (wrap-routes-defaults cmp-routes-1)
+                             (apply routes user-routes)
+                             (wrap-routes-defaults cmp-routes-2))]
+      (let [wrapped-in-middleware (if middleware (middleware all-routes) all-routes)
             server (immutant/run wrapped-in-middleware (undertow/options undertow-cfg))]
         (when (:port undertow-cfg)
           (log/info "Immutant-web is listening on port" port "on interface" host))
