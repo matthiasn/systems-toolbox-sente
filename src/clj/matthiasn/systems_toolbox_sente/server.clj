@@ -14,7 +14,7 @@
     [taoensso.sente.server-adapters.immutant :refer (sente-web-server-adapter)]
     [taoensso.sente.packers.transit :as sente-transit]))
 
-(def ring-defaults-config
+(def default-ring-defaults-config
   (assoc-in rmd/site-defaults [:security :anti-forgery]
             {:read-token (fn [req] (-> req :params :csrf-token))}))
 
@@ -59,10 +59,12 @@
        :key-password \"some-random-password\"}
 
   In order to disable unencrypted listening altogether, the :port key with a nil value can be specified."
-  [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg sente-opts]
+  [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg sente-opts
+           ring-defaults-config]
     :or   {user-id-fn random-user-id-fn
            host default-host
-           port default-port}}]
+           port default-port
+           ring-defaults-config default-ring-defaults-config}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host host :port port :http2? http2?} undertow-cfg)
           wrap-routes-defaults #(wrap-routes (apply routes %) rmd/wrap-defaults ring-defaults-config)
