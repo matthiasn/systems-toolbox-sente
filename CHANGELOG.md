@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.11] - 2017-04-01
+### Changed
+- Allow ring-defaults' defaults to be supplied from the outside
+
 ## [0.6.9] - 2017-03-30
 ### Changed
 - flexible user routes

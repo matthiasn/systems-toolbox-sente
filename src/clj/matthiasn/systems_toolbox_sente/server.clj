@@ -15,7 +15,7 @@
             [taoensso.sente.packers.transit :as sente-transit]
             [taoensso.sente.server-adapters.immutant :as ia]))
 
-(def ring-defaults-config
+(def default-ring-defaults-config
   (assoc-in rmd/site-defaults [:security :anti-forgery]
             {:read-token (fn [req] (-> req :params :csrf-token))}))
 
@@ -40,6 +40,8 @@
 (def env-host (get (System/getenv) "HOST"))
 (def env-port (get (System/getenv) "PORT"))
 (def http2? (get (System/getenv) "HTTP2" false))
+(def default-host "localhost")
+(def default-port 8888)
 
 (defn sente-comp-fn
   "Component state function. Initializes the webserver that provides both the
@@ -68,12 +70,12 @@
    can be overriden through setting the HOST and PORT environment variables.
    The can then also be set as part of the undertow-cfg map, which is merged in
    last."
-   [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg
-            sente-opts]
-    :or {user-id-fn random-user-id-fn
-         host       "localhost"
-         port       8888}
-     :as cfg-map}]
+  [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg sente-opts
+           ring-defaults-config]
+    :or   {user-id-fn random-user-id-fn
+           host default-host
+           port default-port
+           ring-defaults-config default-ring-defaults-config}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host   (or env-host host)
                                :port   (if env-port
