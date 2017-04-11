@@ -8,7 +8,10 @@
 
 (defonce switchboard (sb/component :client/switchboard))
 
-(def sente-cfg {:relay-types #{:cnt/inc :cnt/dec :cnt/add :cnt/remove}})
+(def sente-cfg {:relay-types #{:cnt/inc :cnt/dec :cnt/add :cnt/remove}
+                ;; uncomment for testing via AJAX instead of WebSockets
+                ;; :sente-opts  {:type :ajax}
+                })
 
 (defn init
   []

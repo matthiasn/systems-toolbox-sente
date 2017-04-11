@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.12] - 2017-04-11
+### Changed
+- random-user-id-fn removed - custom user-id-fn can be set in :sente-opts
+
 ## [0.6.11] - 2017-04-01
 ### Changed
 - Allow ring-defaults' defaults to be supplied from the outside
