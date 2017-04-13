@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.12"
+(defproject matthiasn/systems-toolbox-sente "0.6.13"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -16,16 +16,16 @@
                  [com.cognitect/transit-cljs "0.8.239"]
                  [ring "1.5.1"]
                  [compojure "1.5.2"]
-                 [matthiasn/systems-toolbox "0.6.6"]
+                 [matthiasn/systems-toolbox "0.6.7"]
                  [ring/ring-defaults "0.2.3"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [org.jboss.logging/jboss-logging "3.3.1.Final"]]
 
   :profiles
   {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha15"]
-                          [org.clojure/clojurescript "1.9.473"]
+                          [org.clojure/clojurescript "1.9.518"]
                           [matthiasn/systems-toolbox-ui "0.6.2"]
-                          [ch.qos.logback/logback-classic "1.2.2"]
+                          [ch.qos.logback/logback-classic "1.2.3"]
                           [hiccup "1.0.5"]
                           [org.seleniumhq.selenium/selenium-java "3.3.1"
                            :exclusions [org.seleniumhq.selenium/selenium-support]]
@@ -35,7 +35,7 @@
                           [org.seleniumhq.selenium/selenium-support "3.3.1"]
                           [org.seleniumhq.selenium/selenium-remote-driver "3.3.1"]
                           [org.seleniumhq.selenium/selenium-chrome-driver "3.3.1"]
-                          [com.codeborne/phantomjsdriver "1.4.1"
+                          [com.codeborne/phantomjsdriver "1.4.2"
                            :exclusions [org.apache.httpcomponents/httpcore]]
                           [clj-webdriver "0.7.2"
                            :exclusions [org.clojure/core.cache
