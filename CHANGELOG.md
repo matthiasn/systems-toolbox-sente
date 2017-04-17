@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.14] - 2017-04-17
+### Changed
+- using :client-id as user-id
+
 ## [0.6.13] - 2017-04-13
 ### Changed
 - latest deps in tests

@@ -19,6 +19,15 @@
   (assoc-in rmd/site-defaults [:security :anti-forgery]
             {:read-token (fn [req] (-> req :params :csrf-token))}))
 
+(defn default-user-id-fn
+  "Uses the client-generated :client-id as default user ID.
+   Can be overridden by the :user-id-fn key in the component's cfg-map, for
+   example in order to use the ring session ID."
+  [req]
+  (let [client-id (:client-id req)]
+    (log/debug "Connected:" (:remote-addr req) client-id)
+    client-id))
+
 (defn make-handler
   "Create handler function for messages from WebSocket connection. Calls put-fn
    with received messages while reconstructing the metadata on each message to
@@ -61,10 +70,11 @@
    can be overriden through setting the HOST and PORT environment variables.
    The can then also be set as part of the undertow-cfg map, which is merged in
    last."
-  [{:keys [index-page-fn middleware routes-fn host port undertow-cfg sente-opts
+  [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg sente-opts
            ring-defaults-config]
-    :or   {host default-host
-           port default-port
+    :or   {user-id-fn           default-user-id-fn
+           host                 default-host
+           port                 default-port
            ring-defaults-config default-ring-defaults-config}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host   (or env-host host)
@@ -77,7 +87,8 @@
                         []
                         (routes-fn {:put-fn put-fn
                                     :wrap-routes-defaults wrap-routes-defaults}))
-          opts (merge {:packer (sente-transit/get-transit-packer)}
+          opts (merge {:user-id-fn user-id-fn
+                       :packer (sente-transit/get-transit-packer)}
                       sente-opts)
           ws (sente/make-channel-socket-server! (ia/get-sch-adapter) opts)
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
