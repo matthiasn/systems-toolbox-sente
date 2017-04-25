@@ -85,10 +85,10 @@
           wrap-routes-defaults #(wrap-routes (apply routes %) rmd/wrap-defaults ring-defaults-config)
           user-routes (if-not routes-fn
                         []
-                        (routes-fn {:put-fn put-fn
+                        (routes-fn {:put-fn               put-fn
                                     :wrap-routes-defaults wrap-routes-defaults}))
           opts (merge {:user-id-fn user-id-fn
-                       :packer (sente-transit/get-transit-packer)}
+                       :packer     (sente-transit/get-transit-packer)}
                       sente-opts)
           ws (sente/make-channel-socket-server! (ia/get-sch-adapter) opts)
           {:keys [ch-recv ajax-get-or-ws-handshake-fn ajax-post-fn]} ws
@@ -145,17 +145,20 @@
                   cfg-map-or-index-page-fn
                   (do (log/warn "DEPRECATED: use of index-page-fn in sente-cmp"
                                 "use cfg-map instead")
-                      {:index-page-fn cfg-map-or-index-page-fn}))]
+                      {:index-page-fn cfg-map-or-index-page-fn}))
+        opts (merge
+               {:watch                 :connected-uids
+                :reload-cmp            false
+                :snapshots-on-firehose false
+                :validate-in           false
+                :validate-out          false
+                :validate-state        false}
+               (:opts cfg-map))]
     (st-spec/valid-or-no-spec? :st-sente/server-cfg cfg-map)
     (merge
       {:cmp-id   cmp-id
        :state-fn (sente-comp-fn cfg-map)
-       :opts     {:watch                 :connected-uids
-                  :reload-cmp            false
-                  :snapshots-on-firehose false
-                  :validate-in           false
-                  :validate-out          false
-                  :validate-state        false}}
+       :opts     opts}
       (if-let [msg-types (:relay-types cfg-map)]
         {:handler-map (zipmap msg-types (repeat all-msgs-handler))}
         (do (log/warn
