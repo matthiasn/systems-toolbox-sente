@@ -1,7 +1,7 @@
 (ns matthiasn.systems-toolbox-sente.test-spec
   (:require
-    #?(:clj  [clojure.spec :as s]
-       :cljs [cljs.spec :as s])))
+    #?(:clj  [clojure.spec.alpha :as s]
+       :cljs [cljs.spec.alpha :as s])))
 
 (s/def :test/counter #(and (integer? %) (>= % 0)))
 

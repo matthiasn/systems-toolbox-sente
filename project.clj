@@ -8,34 +8,37 @@
 
   :dependencies [[org.clojure/tools.logging "0.3.1"]
                  [com.taoensso/sente "1.11.0" :exclusions [org.clojure/core.async]]
-                 [org.immutant/web "2.1.6" :exclusions [ring/ring-core]]
+                 [org.immutant/web "2.1.7" :exclusions [ring/ring-core]]
                  [org.clojure/core.match "0.3.0-alpha4"
                   :exclusions [org.clojure/core.memoize
                                org.clojure/tools.analyzer.jvm]]
                  [com.cognitect/transit-clj "0.8.300"]
                  [com.cognitect/transit-cljs "0.8.239"]
-                 [ring "1.5.1"]
-                 [compojure "1.5.2"]
-                 [matthiasn/systems-toolbox "0.6.7"]
-                 [ring/ring-defaults "0.2.3"]
+                 [ring "1.6.1"]
+                 [compojure "1.6.0"]
+                 [matthiasn/systems-toolbox "0.6.9"]
+                 [ring/ring-defaults "0.3.0"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [org.jboss.logging/jboss-logging "3.3.1.Final"]]
 
   :profiles
-  {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha15"]
-                          [org.clojure/clojurescript "1.9.521"]
-                          [re-frame "0.9.2"]
+  {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha17"]
+                          [org.clojure/clojurescript "1.9.562"]
+                          [re-frame "0.9.3"]
                           [ch.qos.logback/logback-classic "1.2.3"]
                           [hiccup "1.0.5"]
-                          [org.seleniumhq.selenium/selenium-java "3.3.1"
-                           :exclusions [org.seleniumhq.selenium/selenium-support]]
-                          [org.seleniumhq.selenium/selenium-api "3.3.1"]
-                          [org.seleniumhq.selenium/selenium-server "3.3.1"
-                           :exclusions [org.seleniumhq.selenium/selenium-support]]
-                          [org.seleniumhq.selenium/selenium-support "3.3.1"]
-                          [org.seleniumhq.selenium/selenium-remote-driver "3.3.1"]
-                          [org.seleniumhq.selenium/selenium-chrome-driver "3.3.1"]
-                          [com.codeborne/phantomjsdriver "1.4.2"
+                          [org.seleniumhq.selenium/selenium-java "3.4.0"
+                           :exclusions [org.seleniumhq.selenium/selenium-support
+                                        org.seleniumhq.selenium/selenium-api
+                                        org.seleniumhq.selenium/selenium-support]]
+                          [org.seleniumhq.selenium/selenium-api "3.4.0"]
+                          [org.seleniumhq.selenium/selenium-server "3.4.0"
+                           :exclusions [org.seleniumhq.selenium/selenium-support
+                                        org.seleniumhq.selenium/selenium-api]]
+                          [org.seleniumhq.selenium/selenium-support "3.4.0"]
+                          [org.seleniumhq.selenium/selenium-remote-driver "3.4.0"]
+                          [org.seleniumhq.selenium/selenium-chrome-driver "3.4.0"]
+                          [com.codeborne/phantomjsdriver "1.4.3"
                            :exclusions [org.apache.httpcomponents/httpcore]]
                           [clj-webdriver "0.7.2"
                            :exclusions [org.clojure/core.cache
@@ -48,8 +51,8 @@
   :test-paths ["test/cljc" "test/clj"]
 
   :plugins [[lein-codox "0.10.3" :exclusions [org.clojure/clojure]]
-            [test2junit "1.2.5"]
-            [lein-cljsbuild "1.1.5"]]
+            [test2junit "1.3.2"]
+            [lein-cljsbuild "1.1.6"]]
 
   :test2junit-output-dir ~(or (System/getenv "CIRCLE_TEST_REPORTS") "target/test2junit")
 
