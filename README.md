@@ -16,7 +16,7 @@ As a default, the tests will run in **Chrome**. This requires you to install **[
 
 With ChromeDriver installed, you can fire up the tests:
 
-    $ lein integrations-tests
+    $ lein integration-tests
 
 
 Also, you can run the tests using **[PhantomJS](http://phantomjs.org/)**:

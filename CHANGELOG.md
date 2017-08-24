@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.16] - 2017-08-24
+### Changed
+- latest dependencies
+
 ## [0.6.15] - 2017-05-30
 ### Changed
 - latest Clojure and ClojureScript versions after the spec split
@@ -166,10 +170,3 @@ All notable changes to this project will be documented in this file. This change
 ## v0.5.1 - January 3rd, 2016
 ### Changed
 - Sente components moved from systems-toolbox into separate repo
-
-
-[v0.6.1-alpha5]: https://github.com/matthiasn/systems-toolbox-sente/compare/v0.6.1-alpha4...v0.6.1-alpha5
-[v0.6.1-alpha4]: https://github.com/matthiasn/systems-toolbox-sente/compare/v0.6.1-alpha3...v0.6.1-alpha4
-[v0.6.1-alpha3]: https://github.com/matthiasn/systems-toolbox-sente/compare/v0.6.1-alpha2...v0.6.1-alpha3
-[v0.6.1-alpha2]: https://github.com/matthiasn/systems-toolbox-sente/compare/v0.6.1-alpha1...v0.6.1-alpha2
-[v0.6.1-alpha1]: https://github.com/matthiasn/systems-toolbox-sente/compare/v0.5.18...v0.6.1-alpha1
