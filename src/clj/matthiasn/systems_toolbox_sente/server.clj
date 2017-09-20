@@ -34,8 +34,10 @@
    comply with the message format expected by the systems-toolbox library."
   [_ put-fn]
   (fn [{:keys [event]}]
-    (log/debug "Received over WebSockets:" event)
-    (put-fn (u/deserialize-meta event))))
+    (let [msg (u/deserialize-meta event)]
+      (log/debug "Received over WebSockets:" event)
+      (when-not (= "chsk" (namespace (first msg)))
+        (put-fn msg)))))
 
 (def env-host (get (System/getenv) "HOST"))
 (def env-port (get (System/getenv) "PORT"))

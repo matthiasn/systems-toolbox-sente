@@ -8,13 +8,14 @@ These components have previously been part of the **[system-toolbox](https://git
 
 [![Dependencies Status](https://jarkeeper.com/matthiasn/systems-toolbox-sente/status.svg)](https://jarkeeper.com/matthiasn/systems-toolbox-sente)
 
+
 ## Testing
 
-As a default, the tests will run in **Chrome**. This requires you to install **[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)** first:
+As a default, the tests will run in **Firefox**. This requires you to install **[GeckoDriver](https://github.com/mozilla/geckodriver)** first:
 
-    $ bin/get-chromedriver.sh
+    $ bin/get-geckodriver.sh
 
-With ChromeDriver installed, you can fire up the tests:
+With GeckoDriver installed, you can fire up the tests:
 
     $ lein integration-tests
 
@@ -22,6 +23,12 @@ With ChromeDriver installed, you can fire up the tests:
 Also, you can run the tests using **[PhantomJS](http://phantomjs.org/)**:
 
     $ BROWSER=phantomjs lein integration-tests
+
+
+Or in **Chrome**:
+
+    $ bin/get-chromedriver.sh
+    $ BROWSER=chrome lein integration-tests
 
 
 Tests are run automatically on **CircleCI** using Chrome: [![CircleCI Build Status](https://circleci.com/gh/matthiasn/systems-toolbox-sente.svg?&style=shield)](https://circleci.com/gh/matthiasn/systems-toolbox-sente)

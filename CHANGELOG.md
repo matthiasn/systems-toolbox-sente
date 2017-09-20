@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.17] - 2017-09-20
+### Changed
+- no relaying of sente-internal messages
+
 ## [0.6.16] - 2017-08-24
 ### Changed
 - latest dependencies
