@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.17"
+(defproject matthiasn/systems-toolbox-sente "0.6.18"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -6,38 +6,40 @@
 
   :source-paths ["src/cljc" "src/clj" "src/cljs"]
 
-  :dependencies [[org.clojure/tools.logging "0.4.0"]
-                 [com.taoensso/sente "1.11.0" :exclusions [org.clojure/core.async]]
-                 [org.immutant/web "2.1.9" :exclusions [ring/ring-core]]
-                 [org.clojure/core.match "0.3.0-alpha4"
-                  :exclusions [org.clojure/core.memoize
-                               org.clojure/tools.analyzer.jvm]]
-                 [com.cognitect/transit-clj "0.8.300"]
-                 [com.cognitect/transit-cljs "0.8.239"]
-                 [ring "1.6.2"]
-                 [compojure "1.6.0"]
-                 [ring/ring-defaults "0.3.1"]
-                 [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
-                 [org.jboss.logging/jboss-logging "3.3.1.Final"]]
+  :dependencies
+  [[org.clojure/tools.logging "0.4.0"]
+   [com.taoensso/sente "1.11.0" :exclusions [org.clojure/core.async
+                                             org.clojure/tools.reader]]
+   [org.immutant/web "2.1.9" :exclusions [ring/ring-core]]
+   [org.clojure/core.match "0.3.0-alpha4" :exclusions [org.clojure/tools.analyzer.jvm
+                                                       org.clojure/core.memoize]]
+   [com.cognitect/transit-clj "0.8.300"]
+   [com.cognitect/transit-cljs "0.8.243"]
+   [ring "1.6.2"]
+   [compojure "1.6.0"]
+   [ring/ring-defaults "0.3.1"]
+   [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
+   [org.jboss.logging/jboss-logging "3.3.1.Final"]]
 
   :profiles
-  {:dev {:dependencies   [[org.clojure/clojure "1.9.0-alpha19"]
-                          [org.clojure/clojurescript "1.9.908"]
-                          [matthiasn/systems-toolbox "0.6.16"]
-                          [re-frame "0.10.1"]
+  {:dev {:dependencies   [[org.clojure/clojure "1.9.0-beta3"]
+                          [org.clojure/clojurescript "1.9.946"]
+                          [re-frame "0.10.1" :exclusions [org.clojure/tools.reader]]
+                          [matthiasn/systems-toolbox "0.6.23"
+                           :exclusions [org.clojure/tools.reader]]
                           [ch.qos.logback/logback-classic "1.2.3"]
                           [hiccup "1.0.5"]
-                          [org.seleniumhq.selenium/selenium-java "3.5.3"
+                          [org.seleniumhq.selenium/selenium-java "3.6.0"
                            :exclusions [org.seleniumhq.selenium/selenium-support
                                         org.seleniumhq.selenium/selenium-api
                                         org.seleniumhq.selenium/selenium-support]]
-                          [org.seleniumhq.selenium/selenium-api "3.5.3"]
-                          [org.seleniumhq.selenium/selenium-server "3.5.3"
+                          [org.seleniumhq.selenium/selenium-api "3.6.0"]
+                          [org.seleniumhq.selenium/selenium-server "3.6.0"
                            :exclusions [org.seleniumhq.selenium/selenium-support
                                         org.seleniumhq.selenium/selenium-api]]
-                          [org.seleniumhq.selenium/selenium-support "3.5.3"]
-                          [org.seleniumhq.selenium/selenium-remote-driver "3.5.3"]
-                          [org.seleniumhq.selenium/selenium-chrome-driver "3.5.3"]
+                          [org.seleniumhq.selenium/selenium-support "3.6.0"]
+                          [org.seleniumhq.selenium/selenium-remote-driver "3.6.0"]
+                          [org.seleniumhq.selenium/selenium-chrome-driver "3.6.0"]
                           [com.codeborne/phantomjsdriver "1.4.3"
                            :exclusions [org.apache.httpcomponents/httpcore]]
                           [clj-webdriver "0.7.2"
@@ -60,7 +62,7 @@
 
   :aliases
   {"integration-tests" ["do" "clean" ["cljsbuild" "once" "test"] "test2junit"]
-   "test-coverage" ["do" "clean" ["cljsbuild" "once" "test"] "cloverage"]}
+   "test-coverage"     ["do" "clean" ["cljsbuild" "once" "test"] "cloverage"]}
 
   :cljsbuild
   {:builds [{:id           "test"
