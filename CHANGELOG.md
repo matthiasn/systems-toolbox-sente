@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.19] - 2017-10-26
+### Changed
+- always relay firehose messages
+
 ## [0.6.18] - 2017-10-26
 ### Changed
 - dependencies
