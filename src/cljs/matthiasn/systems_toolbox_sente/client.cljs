@@ -7,8 +7,7 @@
             [cljs.core.match :refer-macros [match]]
             [taoensso.sente :as sente]
             [taoensso.sente.packers.transit :as sente-transit]
-            [matthiasn.systems-toolbox.log :as l]
-            [clojure.set :as set]))
+            [matthiasn.systems-toolbox.log :as l]))
 
 (defn set-cookie
   "Helper function for setting a cookie with the provided name."
@@ -132,11 +131,7 @@
                              :validate-out          false
                              :validate-state        false}
                             cfg)}
-          (if-let [msg-types (set/union (set (:relay-types cfg))
-                                        #{:firehose/cmp-put
-                                          :firehose/cmp-recv
-                                          :firehose/cmp-publish-state
-                                          :firehose/cmp-recv-state})]
+          (if-let [msg-types (:relay-types cfg)]
             {:handler-map (zipmap msg-types (repeat all-msgs-handler))}
             (do (l/warn
                   "DEPRECATED: using sente-cmp without specifying :relay-types")
