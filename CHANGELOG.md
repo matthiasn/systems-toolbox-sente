@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.21] - 2018-01-24
+### Changed
+- shutdown-fn in client
+- deps
+
 ## [0.6.20] - 2017-12-26
 ### Changed
 - previous commit reverted

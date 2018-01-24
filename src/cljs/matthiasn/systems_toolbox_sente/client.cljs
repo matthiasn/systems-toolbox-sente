@@ -70,18 +70,19 @@
    Also sets the systems-toolbox-open-requests cookie when the component is
    configured to record the number of open backend requests."
   [cfg]
-  (fn
-    [put-fn]
+  (fn [put-fn]
     (let [opts (merge {:packer (sente-transit/get-transit-packer)}
                       (:sente-opts cfg))
           ws (sente/make-channel-socket-client! "/chsk" opts)
-          cmp-state (merge ws {:request-tags (atom {})})]
-      (sente/start-chsk-router! (:ch-recv ws) (make-handler put-fn cmp-state cfg))
+          cmp-state (merge ws {:request-tags (atom {})})
+          handler (make-handler put-fn cmp-state cfg)
+          shutdown-fn (sente/start-chsk-router! (:ch-recv ws) handler)]
       (swap! (:state ws) assoc :buffered-msgs [])
       (when (:count-open-requests cfg)
         ; set cookie to initial value for testing
         (set-cookie "systems-toolbox-open-requests" "0" 10))
-      {:state cmp-state})))
+      {:state       cmp-state
+       :shutdown-fn shutdown-fn})))
 
 (defn all-msgs-handler
   "Handler function for all incoming messages. By default, all messages received
@@ -94,7 +95,7 @@
         request-tags (:request-tags cmp-state)
         {:keys [state send-fn]} cmp-state
         msg (select-keys msg-map [:msg-type :msg-meta :msg-payload])]
-    (when fwd?
+    (when (and fwd? send-fn)
       (when (and expect-response? (:count-open-requests cfg))
         (swap! request-tags assoc-in [(:tag msg-meta)] msg-type)
         (update-open-request @request-tags))

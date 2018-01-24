@@ -3,8 +3,7 @@
             [matthiasn.systems-toolbox-sente.test-server :as ts]
             [matthiasn.systems-toolbox-sente.test-store :as st]
             [clj-webdriver.taxi :as tx]
-            [clojure.string :as s]
-            [clojure.tools.logging :as log]))
+            [clojure.string :as s]))
 
 (deftest open-page
   (testing "open counter example, interact, UI should change"

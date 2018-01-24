@@ -60,15 +60,13 @@
   (sb/send-cmd switchboard [:cmd/shutdown-all])
   (tx/quit tx/*driver*))
 
-(defn send-to-ws-cmp
-  [msg]
+(defn send-to-ws-cmp [msg]
   (sb/send-cmd
     switchboard
     [:cmd/send {:to  :server/ws-cmp
                 :msg msg}]))
 
-(defn once-fixture
-  [f]
+(defn once-fixture [f]
   (restart!)
   (f)
   (one-time-teardown))
