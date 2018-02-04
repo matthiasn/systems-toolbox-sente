@@ -2,18 +2,24 @@
 
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
+rm *.tar.gz
+
+download_path=https://github.com/mozilla/geckodriver/releases/download/v0.19.1
+darwin_archive=geckodriver-v0.19.1-macos.tar.gz
+linux_archive=geckodriver-v0.19.1-macos.tar.gz
+
 case "$OSTYPE" in
 
   darwin*)
-    wget https://github.com/mozilla/geckodriver/releases/download/v0.19.0/geckodriver-v0.19.0-macos.tar.gz
-    tar -xzf geckodriver-v0.19.0-macos.tar.gz
-    rm geckodriver-v0.19.0-macos.tar.gz
+    curl -O -J -L $download_path/$darwin_archive
+    tar -xzf $darwin_archive
+    rm $darwin_archive
     ;;
 
   linux*)
-    wget https://github.com/mozilla/geckodriver/releases/download/v0.19.0/geckodriver-v0.19.0-linux64.tar.gz
-    tar -xzf geckodriver-v0.19.0-linux64.tar.gz
-    rm geckodriver-v0.19.0-linux64.tar.gz
+    curl -O -J -L  $download_path/$linux_archive
+    tar -xzf $linux_archive
+    rm $linux_archive
     ;;
 
   *)        echo "unknown: $OSTYPE" ;;

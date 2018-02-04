@@ -2,18 +2,24 @@
 
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
+rm *.zip
+
+download_path=http://chromedriver.storage.googleapis.com/2.35
+darwin_archive=chromedriver_mac64.zip
+linux_archive=chromedriver_linux64.zip
+
 case "$OSTYPE" in
 
   darwin*)
-    wget http://chromedriver.storage.googleapis.com/2.33/chromedriver_mac64.zip
-    unzip -o chromedriver_mac64.zip
-    rm chromedriver_mac64.zip
+    curl -O -J -L $download_path/$darwin_archive
+    unzip -o $darwin_archive
+    rm $darwin_archive
     ;;
 
   linux*)
-    wget http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
-    unzip -o chromedriver_linux64.zip
-    rm chromedriver_linux64.zip
+    curl -O -J -L  $download_path/$linux_archive
+    unzip -o $linux_archive
+    rm $linux_archive
     ;;
 
   *)        echo "unknown: $OSTYPE" ;;
