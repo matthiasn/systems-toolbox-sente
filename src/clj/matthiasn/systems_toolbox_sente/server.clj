@@ -104,18 +104,21 @@
           ;; by default. However, user can use (wrap-routes-defaults) to use defaults, if needed.
           all-routes (routes (wrap-routes-defaults cmp-routes-1)
                              (apply routes user-routes)
-                             (wrap-routes-defaults cmp-routes-2))]
-      (let [wrapped-in-middleware (if middleware (middleware all-routes) all-routes)
-            server (immutant/run wrapped-in-middleware (undertow/options undertow-cfg))
-            host (:host undertow-cfg)
-            port (:port undertow-cfg)]
-        (log/info "Immutant-web listening on port" port "on interface" host)
-        (when-let [ssl-port (:ssl-port undertow-cfg)]
-          (log/info
-            "Immutant-web is listening on SSL-port" ssl-port "on interface" host))
-        (sente/start-chsk-router! ch-recv (make-handler ws put-fn))
-        {:state       ws
-         :shutdown-fn #(immutant/stop server)}))))
+                             (wrap-routes-defaults cmp-routes-2))
+          wrapped-in-middleware (if middleware (middleware all-routes) all-routes)
+          server (immutant/run wrapped-in-middleware (undertow/options undertow-cfg))
+          host (:host undertow-cfg)
+          port (:port undertow-cfg)
+          shutdown-fn (fn []
+                        (log/info "Stopping port" port "on interface" host)
+                        (immutant/stop server))]
+      (log/info "Immutant-web listening on port" port "on interface" host)
+      (when-let [ssl-port (:ssl-port undertow-cfg)]
+        (log/info
+          "Immutant-web is listening on SSL-port" ssl-port "on interface" host))
+      (sente/start-chsk-router! ch-recv (make-handler ws put-fn))
+      {:state       ws
+       :shutdown-fn shutdown-fn})))
 
 (defn all-msgs-handler
   "Handler all incoming messages. Reformats message into a map with the metadata

@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.23] - 2018-02-05
+### Changed
+- cleanup and improved logging
+
 ## [0.6.22] - 2018-02-04
 ### Changed
 - test dependencies
