@@ -73,16 +73,17 @@
    The can then also be set as part of the undertow-cfg map, which is merged in
    last."
   [{:keys [index-page-fn middleware user-id-fn routes-fn host port undertow-cfg sente-opts
-           ring-defaults-config]
+           ring-defaults-config mandatory-port]
     :or   {user-id-fn           default-user-id-fn
            host                 default-host
            port                 default-port
            ring-defaults-config default-ring-defaults-config}}]
   (fn [put-fn]
     (let [undertow-cfg (merge {:host   (or env-host host)
-                               :port   (if env-port
-                                         (Integer/parseInt env-port)
-                                         port)
+                               :port   (or mandatory-port
+                                           (when env-port
+                                             (Integer/parseInt env-port))
+                                           port)
                                :http2? http2?} undertow-cfg)
           wrap-routes-defaults #(wrap-routes (apply routes %) rmd/wrap-defaults ring-defaults-config)
           user-routes (if-not routes-fn
