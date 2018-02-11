@@ -59,7 +59,8 @@
                (when (:count-open-requests cfg)
                  (swap! request-tags dissoc (:tag (meta msg-w-meta)))
                  (update-open-request @request-tags))
-               (put-fn msg-w-meta))
+               (when-not (= "chsk" (namespace (first msg-w-meta)))
+                 (put-fn msg-w-meta)))
 
              [:chsk/handshake _] ()
              :else ()))))
