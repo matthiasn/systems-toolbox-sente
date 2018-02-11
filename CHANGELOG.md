@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.27] - 2018-02-11
+### Changed
+- improved debug logging
+
 ## [0.6.26] - 2018-02-11
 ### Changed
 - no forwarding of sente internal messages

@@ -34,9 +34,11 @@
    comply with the message format expected by the systems-toolbox library."
   [_ put-fn]
   (fn [{:keys [event]}]
-    (let [msg (u/deserialize-meta event)]
+    (let [msg (u/deserialize-meta event)
+          msg-type (first msg)]
       (log/trace "Received over WS:" event)
-      (log/debug "Received over WS:" (first msg) "Size:" (count (str msg)))
+      (when-not (contains? #{:firehose/cmp-put :firehose/cmp-recv} msg-type)
+        (log/debug "Received over WS:" (first msg) "Size:" (count (str msg))))
       (when-not (= "chsk" (namespace (first msg)))
         (put-fn msg)))))
 
