@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.25] - 2018-02-11
+### Changed
+- debug logging
+- updated dependencies
+
 ## [0.6.24] - 2018-02-05
 ### Changed
 - mandatory-port (overrides ENV variable)

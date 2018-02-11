@@ -35,7 +35,8 @@
   [_ put-fn]
   (fn [{:keys [event]}]
     (let [msg (u/deserialize-meta event)]
-      (log/debug "Received over WebSockets:" event)
+      (log/trace "Received over WS:" event)
+      (log/debug "Received over WS:" (first msg) "Size:" (count (str msg)))
       (when-not (= "chsk" (namespace (first msg)))
         (put-fn msg)))))
 
@@ -133,6 +134,8 @@
         connected-uids (:any @(:connected-uids ws))
         dest-uid (:sente-uid msg-meta)
         msg-w-ser-meta [msg-type {:msg msg-payload :msg-meta msg-meta}]]
+    (log/debug "Sending over WS:" msg-type "Size:" (count (str msg-w-ser-meta)))
+    (log/trace "Sending" msg-type msg-w-ser-meta)
     (when (contains? connected-uids dest-uid)
       (chsk-send! dest-uid msg-w-ser-meta))
     (when (= :broadcast dest-uid)
