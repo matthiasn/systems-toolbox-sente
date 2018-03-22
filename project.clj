@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.27"
+(defproject matthiasn/systems-toolbox-sente "0.6.28"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -19,27 +19,27 @@
    [compojure "1.6.0"]
    [ring/ring-defaults "0.3.1"]
    [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
-   [org.jboss.logging/jboss-logging "3.3.1.Final"]]
+   [org.jboss.logging/jboss-logging "3.3.2.Final"]]
 
   :profiles
   {:dev {:dependencies   [[org.clojure/clojure "1.9.0"]
-                          [org.clojure/clojurescript "1.9.946"]
+                          [org.clojure/clojurescript "1.10.217"]
                           [re-frame "0.10.4" :exclusions [org.clojure/tools.reader]]
-                          [matthiasn/systems-toolbox "0.6.33"
+                          [matthiasn/systems-toolbox "0.6.34"
                            :exclusions [org.clojure/tools.reader]]
                           [ch.qos.logback/logback-classic "1.2.3"]
                           [hiccup "1.0.5"]
-                          [org.seleniumhq.selenium/selenium-java "3.8.1"
+                          [org.seleniumhq.selenium/selenium-java "3.11.0"
                            :exclusions [org.seleniumhq.selenium/selenium-support
                                         org.seleniumhq.selenium/selenium-api
                                         org.seleniumhq.selenium/selenium-support]]
-                          [org.seleniumhq.selenium/selenium-api "3.8.1"]
-                          [org.seleniumhq.selenium/selenium-server "3.8.1"
+                          [org.seleniumhq.selenium/selenium-api "3.11.0"]
+                          [org.seleniumhq.selenium/selenium-server "3.11.0"
                            :exclusions [org.seleniumhq.selenium/selenium-support
                                         org.seleniumhq.selenium/selenium-api]]
-                          [org.seleniumhq.selenium/selenium-support "3.8.1"]
-                          [org.seleniumhq.selenium/selenium-remote-driver "3.8.1"]
-                          [org.seleniumhq.selenium/selenium-chrome-driver "3.8.1"]
+                          [org.seleniumhq.selenium/selenium-support "3.11.0"]
+                          [org.seleniumhq.selenium/selenium-remote-driver "3.11.0"]
+                          [org.seleniumhq.selenium/selenium-chrome-driver "3.11.0"]
                           [com.codeborne/phantomjsdriver "1.4.4"
                            :exclusions [org.apache.httpcomponents/httpcore]]
                           [clj-webdriver "0.7.2"
