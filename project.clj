@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.28"
+(defproject matthiasn/systems-toolbox-sente "0.6.29"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -11,10 +11,11 @@
    [com.taoensso/sente "1.12.0" :exclusions [org.clojure/core.async
                                              org.clojure/tools.reader]]
    [org.immutant/web "2.1.10" :exclusions [ring/ring-core]]
+   [http-kit "2.3.0-beta2"]
    [org.clojure/core.match "0.3.0-alpha4" :exclusions [org.clojure/tools.analyzer.jvm
                                                        org.clojure/core.memoize]]
-   [com.cognitect/transit-clj "0.8.300"]
-   [com.cognitect/transit-cljs "0.8.243"]
+   [com.cognitect/transit-clj "0.8.303"]
+   [com.cognitect/transit-cljs "0.8.256"]
    [ring "1.6.3"]
    [compojure "1.6.0"]
    [ring/ring-defaults "0.3.1"]
@@ -23,8 +24,8 @@
 
   :profiles
   {:dev {:dependencies   [[org.clojure/clojure "1.9.0"]
-                          [org.clojure/clojurescript "1.10.217"]
-                          [re-frame "0.10.4" :exclusions [org.clojure/tools.reader]]
+                          [org.clojure/clojurescript "1.10.238"]
+                          [re-frame "0.10.5" :exclusions [org.clojure/tools.reader]]
                           [matthiasn/systems-toolbox "0.6.34"
                            :exclusions [org.clojure/tools.reader]]
                           [ch.qos.logback/logback-classic "1.2.3"]
@@ -53,7 +54,7 @@
   :test-paths ["test/cljc" "test/clj"]
 
   :plugins [[lein-codox "0.10.3" :exclusions [org.clojure/clojure]]
-            [test2junit "1.3.3"]
+            [test2junit "1.4.0"]
             [lein-cljsbuild "1.1.7"]]
 
   :test2junit-output-dir ~(or (System/getenv "CIRCLE_TEST_REPORTS") "target/test2junit")

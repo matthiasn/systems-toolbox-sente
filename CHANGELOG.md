@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.29] - 2018-04-10
+### Changed
+- additional http-kit server
+
 ## [0.6.28] - 2018-03-22
 ### Changed
 - test with ClojureScript 1.10
