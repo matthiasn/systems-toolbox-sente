@@ -143,7 +143,7 @@
       (chsk-send! dest-uid msg-w-ser-meta))
     (when (= :broadcast dest-uid)
       (doseq [uid connected-uids]
-        (chsk-send! uid msg-w-ser-meta)))))
+        (chsk-send! uid msg-w-ser-meta {:flush? true})))))
 
 (defn cmp-map
   "Returns map for creating server-side WebSockets communication component.
