@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.6.31] - 2018-06-04
+### Changed
+- updated dependencies
+
 ## [0.6.30] - 2018-05-09
 ### Changed
 - updated dependencies

@@ -1,4 +1,4 @@
-(defproject matthiasn/systems-toolbox-sente "0.6.30"
+(defproject matthiasn/systems-toolbox-sente "0.6.31"
   :description "WebSocket components for systems-toolbox"
   :url "https://github.com/matthiasn/systems-toolbox"
   :license {:name "Eclipse Public License"
@@ -18,7 +18,7 @@
    [com.cognitect/transit-cljs "0.8.256"]
    [ring "1.6.3"]
    [compojure "1.6.1"]
-   [ring/ring-defaults "0.3.1"]
+   [ring/ring-defaults "0.3.2"]
    [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
    [org.jboss.logging/jboss-logging "3.3.2.Final"]]
 
@@ -26,7 +26,7 @@
   {:dev {:dependencies   [[org.clojure/clojure "1.9.0"]
                           [org.clojure/clojurescript "1.10.238"]
                           [re-frame "0.10.5" :exclusions [org.clojure/tools.reader]]
-                          [matthiasn/systems-toolbox "0.6.34"
+                          [matthiasn/systems-toolbox "0.6.35"
                            :exclusions [org.clojure/tools.reader]]
                           [ch.qos.logback/logback-classic "1.2.3"]
                           [hiccup "1.0.5"]
