@@ -18,7 +18,7 @@
 (s/def :st-sente/ssl-port number?)
 (s/def :st-sente/keystore string?)
 (s/def :st-sente/key-password string?)
-(s/def :st-sente/relay-types (s/* namespaced-keyword?))
+(s/def :st-sente/relay-types (s/and (s/coll-of namespaced-keyword?) set?))
 
 (s/def :st-sente/server-cfg
   (s/keys :req-un [:st-sente/index-page-fn]
