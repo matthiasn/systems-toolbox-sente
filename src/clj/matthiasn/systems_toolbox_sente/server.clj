@@ -6,6 +6,7 @@
             [matthiasn.systems-toolbox.spec :as st-spec]
             [clojure.tools.logging :as log]
             [ring.middleware.defaults :as rmd]
+            [ring.middleware.anti-forgery :as anti-forgery]
             [ring.util.response :refer [response content-type]]
             [compojure.core :refer [routes wrap-routes GET POST]]
             [compojure.route :as route]
@@ -14,6 +15,12 @@
             [taoensso.sente :as sente]
             [taoensso.sente.packers.transit :as sente-transit]
             [taoensso.sente.server-adapters.immutant :as ia]))
+
+(defn sente-csrf-token
+  "Helper function for adding anti-forgery-token"
+  []
+  (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
+    [:div#sente-csrf-token {:data-csrf-token csrf-token}]))
 
 (def default-ring-defaults-config
   (assoc-in rmd/site-defaults [:security :anti-forgery]
