@@ -8,7 +8,7 @@
 
   :dependencies
   [[org.clojure/tools.logging "0.4.1"]
-   [com.taoensso/sente "1.12.0" :exclusions [org.clojure/core.async
+   [com.taoensso/sente "1.14.0" :exclusions [org.clojure/core.async
                                              org.clojure/tools.reader]]
    [org.immutant/web "2.1.10" :exclusions [ring/ring-core]]
    [org.clojure/core.match "0.3.0-alpha4" :exclusions [org.clojure/tools.analyzer.jvm

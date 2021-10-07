@@ -18,6 +18,7 @@
       [:title "Counter"]
       [:link {:href "/css/example.css" :rel "stylesheet"}]]
      [:body
+      (sente/sente-csrf-token)
       [:div#counter]
       [:script {:src "/js/build/example.js"}]]]))
 

@@ -74,7 +74,11 @@
   (fn [put-fn]
     (let [opts (merge {:packer (sente-transit/get-transit-packer)}
                       (:sente-opts cfg))
-          ws (sente/make-channel-socket-client! "/chsk" opts)
+          ?csrf-token (when-let [el (.getElementById js/document "sente-csrf-token")]
+                        (.getAttribute el "data-csrf-token"))
+          _ (when-not ?csrf-token
+              (l/error "CSRF token NOT detected in HTML, default Sente config will reject requests"))
+          ws (sente/make-channel-socket-client! "/chsk" ?csrf-token opts)
           cmp-state (merge ws {:request-tags (atom {})})
           handler (make-handler put-fn cmp-state cfg)
           shutdown-fn (sente/start-chsk-router! (:ch-recv ws) handler)]
